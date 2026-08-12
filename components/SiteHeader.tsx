@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { CartBadge } from "@/components/CartBadge";
+import { LogoMark } from "@/components/LogoMark";
 
 export async function SiteHeader() {
   const supabase = await createClient();
@@ -11,10 +12,8 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-8 px-6 py-4">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900 font-extrabold text-white">
-            AM
-          </span>
+        <Link href="/" className="flex items-center gap-2.5">
+          <LogoMark size={36} />
           <span className="text-lg font-extrabold tracking-tight text-zinc-900">AMJ Mark</span>
         </Link>
 

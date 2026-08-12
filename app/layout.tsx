@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Syne } from "next/font/google";
+import { Plus_Jakarta_Sans, Syne, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartProvider";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -17,6 +17,12 @@ const displayFont = Syne({
   weight: ["700", "800"],
 });
 
+const logoFont = Playfair_Display({
+  variable: "--font-logo",
+  subsets: ["latin"],
+  weight: ["700"],
+});
+
 export const metadata: Metadata = {
   title: "AMJ Mark — Premium DTF Transfers & Print-on-Demand",
   description:
@@ -25,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}>
+    <html lang="en" className={`${bodyFont.variable} ${displayFont.variable} ${logoFont.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-white text-zinc-900">
         <CartProvider>
           <SiteHeader />
