@@ -6,6 +6,7 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 text-sm sm:flex-row sm:items-center sm:justify-between">
         <div>
           <span className="font-semibold text-zinc-900">AMJ Mark</span> — Premium DTF Transfers &amp; Print-on-Demand
+          <span className="text-zinc-400"> · Fremont, CA</span>
         </div>
         <div className="flex gap-6">
           <a href="mailto:info@amjmark.com" className="hover:text-zinc-900">
