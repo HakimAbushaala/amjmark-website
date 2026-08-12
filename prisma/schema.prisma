@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProfileRole {
+  customer
+  admin
+}
+
+enum ProductType {
+  gang_sheet_custom
+  gang_sheet_preset
+  apparel
+}
+
+enum OrderStatus {
+  pending_payment
+  paid
+  in_production
+  shipped
+  completed
+  cancelled
+}
+
+// Mirrors a Supabase auth.users row. id is the Supabase user id (uuid), not
+// a separately generated key, so it can be joined 1:1 with auth.users.
+model Profile {
+  id        String      @id @db.Uuid
+  email     String      @unique
+  fullName  String?
+  role      ProfileRole @default(customer)
+  createdAt DateTime    @default(now())
+  orders    Order[]
+
+  @@map("profiles")
+}
+
+model Product {
+  id             String           @id @default(uuid())
+  slug           String           @unique
+  name           String
+  description    String?
+  type           ProductType
+  basePriceCents Int?
+  images         String[]         @default([])
+  active         Boolean          @default(true)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  variants       ProductVariant[]
+  orderItems     OrderItem[]
+
+  @@map("products")
+}
+
+model ProductVariant {
+  id             String      @id @default(uuid())
+  productId      String
+  product        Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name           String
+  sku            String      @unique
+  priceCents     Int
+  inventoryCount Int         @default(0)
+  attributes     Json?
+  active         Boolean     @default(true)
+  orderItems     OrderItem[]
+
+  @@map("product_variants")
+}
+
+// Drives gang-sheet per-sq-in rate tiers and wholesale qty-break discounts.
+// Seeded with values ported 1:1 from the original gang-sheet builder's JS
+// pricing logic; editable later via direct DB access without a code deploy.
+model PricingRule {
+  id               String      @id @default(uuid())
+  productType      ProductType
+  label            String
+  minQuantity      Int? // wholesale qty threshold (units/sheets)
+  minSqIn          Float? // gang-sheet cumulative sq-in threshold
+  rateCentsPerUnit Float? // cents per sq in, for gang-sheet tiers
+  discountPercent  Float? // % off base price, for wholesale tiers
+  flatFeeCents     Int? // e.g. rush fee
+  active           Boolean     @default(true)
+  sortOrder        Int         @default(0)
+
+  @@map("pricing_rules")
+}
+
+// A composited gang-sheet design saved by the design tool before it has a
+// customer/shipping/payment attached. Cart references drafts by id; at
+// checkout each referenced draft becomes an OrderItem.
+model DesignDraft {
+  id                 String   @id @default(uuid())
+  compositedImageUrl String
+  sheetWidthIn       Float
+  sheetHeightIn      Float
+  itemsJson          Json
+  rush               Boolean  @default(false)
+  sheetQty           Int      @default(1)
+  notes              String?
+  subtotalCents      Int
+  rushFeeCents       Int      @default(0)
+  priceCents         Int // = subtotalCents + rushFeeCents, kept denormalized for quick reads
+  createdAt          DateTime @default(now())
+
+  @@map("design_drafts")
+}
+
+model Order {
+  id                    String      @id @default(uuid())
+  userId                String?     @db.Uuid
+  user                  Profile?    @relation(fields: [userId], references: [id])
+  email                 String // contact email, always set — guest or logged-in
+  customerName          String
+  phone                 String?
+  shippingAddress       Json
+  status                OrderStatus @default(pending_payment)
+  subtotalCents         Int
+  rushFeeCents          Int         @default(0)
+  totalCents            Int
+  stripeSessionId       String?     @unique
+  stripePaymentIntentId String?
+  notes                 String?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  items                 OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id             String          @id @default(uuid())
+  orderId        String
+  order          Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      String?
+  product        Product?        @relation(fields: [productId], references: [id])
+  variantId      String?
+  variant        ProductVariant? @relation(fields: [variantId], references: [id])
+  description    String
+  qty            Int
+  unitPriceCents Int
+  widthIn        Float?
+  heightIn       Float?
+  designAssetUrl String?
+  layoutJson     Json?
+
+  @@map("order_items")
+}

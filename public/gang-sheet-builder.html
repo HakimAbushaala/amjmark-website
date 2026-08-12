@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AMJ Mark — DTF Gang Sheet Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════ */
+:root{
+  /* Brand */
+  --amber:       #f59e0b;
+  --amber-d:     #d97706;
+  --amber-l:     #fffbeb;
+  --amber-glow:  rgba(245,158,11,.18);
+
+  /* Neutrals */
+  --ink:         #0f172a;
+  --ink-2:       #1e293b;
+  --ink-3:       #334155;
+  --slate:       #475569;
+  --muted:       #64748b;
+  --subtle:      #94a3b8;
+  --line:        #e2e8f0;
+  --surface:     #f8fafc;
+  --white:       #ffffff;
+
+  /* Semantic */
+  --green:       #10b981;
+  --green-d:     #059669;
+  --red:         #ef4444;
+  --blue:        #3b82f6;
+
+  /* Shadows */
+  --shadow-xs:   0 1px 2px rgba(0,0,0,.06);
+  --shadow-sm:   0 1px 4px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:   0 4px 12px rgba(0,0,0,.1), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg:   0 12px 40px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.08);
+  --shadow-xl:   0 24px 64px rgba(0,0,0,.2);
+
+  /* Radii */
+  --r-sm:  4px;
+  --r-md:  8px;
+  --r-lg:  12px;
+  --r-xl:  16px;
+  --r-2xl: 24px;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink);color:var(--white);font-size:13px;height:100vh;overflow:hidden;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:inherit}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--ink-3);border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:var(--slate)}
+
+/* ═══════════════════════════════════════════════════
+   TOP ANNOUNCEMENT BAR
+═══════════════════════════════════════════════════ */
+#topbar{
+  background:linear-gradient(90deg, var(--amber-d), var(--amber), var(--amber-d));
+  color:var(--ink);
+  text-align:center;
+  padding:7px 16px;
+  font-size:11.5px;
+  font-weight:700;
+  letter-spacing:.1px;
+  flex-shrink:0;
+}
+#topbar a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+
+/* ═══════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════ */
+#nav{
+  background:var(--ink-2);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 20px;
+  height:56px;
+  flex-shrink:0;
+  box-shadow:0 1px 0 rgba(255,255,255,.04), var(--shadow-sm);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-right:4px;
+}
+.logo-mark{
+  width:34px;
+  height:34px;
+  background:linear-gradient(135deg, var(--amber), var(--amber-d));
+  border-radius:var(--r-md);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Syne',sans-serif;
+  font-size:14px;
+  font-weight:800;
+  color:var(--ink);
+  letter-spacing:-.5px;
+  box-shadow:0 2px 8px rgba(245,158,11,.35);
+}
+.logo-text{
+  font-family:'Syne',sans-serif;
+  font-weight:800;
+  font-size:17px;
+  color:var(--white);
+  letter-spacing:-.3px;
+  line-height:1;
+}
+.logo-sub{
+  display:block;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:9.5px;
+  font-weight:500;
+  color:var(--subtle);
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  margin-top:1px;
+}
+
+.nav-tabs{
+  display:flex;
+  align-items:center;
+  gap:2px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r-md);
+  padding:3px;
+}
+.nav-tab{
+  padding:5px 14px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--subtle);
+  transition:all .15s;
+  letter-spacing:.1px;
+}
+.nav-tab:hover{color:var(--white)}
+.nav-tab.act{
+  background:var(--amber);
+  color:var(--ink);
+  box-shadow:0 1px 4px rgba(245,158,11,.4);
+}
+
+.spacer{flex:1}
+
+.nav-action{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 14px;
+  border-radius:var(--r-md);
+  font-size:12px;
+  font-weight:600;
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--subtle);
+  background:rgba(255,255,255,.04);
+  transition:all .18s;
+  letter-spacing:.1px;
+}
+.nav-action:hover{border-color:rgba(255,255,255,.2);color:var(--white);background:rgba(255,255,255,.08)}
+.nav-action.cta{
+  background:var(--amber);
+  color:var(--ink);
+  border-color:var(--amber);
+  font-weight:700;
+}
+.nav-action.cta:hover{background:var(--amber-d);border-color:var(--amber-d)}
+
+/* ═══════════════════════════════════════════════════
+   TOOLBAR
+═══════════════════════════════════════════════════ */
+#toolbar{
+  background:var(--ink-2);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:0 16px;
+  height:44px;
+  flex-shrink:0;
+}
+.tb-sep{width:1px;height:22px;background:rgba(255,255,255,.08);margin:0 6px;flex-shrink:0}
+.tb-btn{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 10px;
+  border-radius:var(--r-sm);
+  font-size:12px;
+  font-weight:500;
+  color:var(--subtle);
+  transition:all .14s;
+  white-space:nowrap;
+  letter-spacing:.05px;
+}
+.tb-btn:hover{background:rgba(255,255,255,.07);color:var(--white)}
+.tb-btn.act{background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.tb-btn.primary{background:var(--amber);color:var(--ink);font-weight:700;padding:5px 13px}
+.tb-btn.primary:hover{background:var(--amber-d)}
+.tb-btn.success{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.tb-btn.success:hover{background:rgba(16,185,129,.2)}
+.tb-btn.danger-h:hover{background:rgba(239,68,68,.12);color:var(--red)}
+.tb-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:1px 6px;
+  border-radius:99px;
+  font-size:9.5px;
+  font-weight:700;
+  background:rgba(255,255,255,.08);
+  color:var(--subtle);
+  margin-left:2px;
+}
+#tbInfo{margin-left:auto;font-size:11px;color:var(--muted);font-weight:500}
+
+/* ═══════════════════════════════════════════════════
+   3-COLUMN WORKSPACE
+═══════════════════════════════════════════════════ */
+#workspace{
+  display:grid;
+  grid-template-columns:296px 1fr 276px;
+  flex:1;
+  overflow:hidden;
+  min-height:0;
+}
+
+/* ═══════════════════════════════════════════════════
+   SIDE PANELS
+═══════════════════════════════════════════════════ */
+.sp{
+  background:var(--ink-2);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+.sp:last-child{border-right:none;border-left:1px solid rgba(255,255,255,.06)}
+.sp-hd{
+  padding:12px 16px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:var(--ink-2);
+}
+.sp-hd-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:'Syne',sans-serif;
+  font-weight:700;
+  font-size:13px;
+  letter-spacing:.3px;
+  color:var(--white);
+}
+.sp-hd-icon{
+  width:24px;
+  height:24px;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+}
+.sp-hd-icon.amber{background:rgba(245,158,11,.15);color:var(--amber)}
+.sp-hd-icon.green{background:rgba(16,185,129,.15);color:var(--green)}
+.sp-badge{
+  padding:2px 8px;
+  border-radius:99px;
+  font-size:10px;
+  font-weight:700;
+  background:rgba(255,255,255,.06);
+  color:var(--subtle);
+}
+.sp-body{padding:14px;flex:1;display:flex;flex-direction:column;gap:14px}
+.sp-label{
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+
+/* ═══════════════════════════════════════════════════
+   UPLOAD ZONE
+═══════════════════════════════════════════════════ */
+.upzone{
+  border:2px dashed rgba(255,255,255,.1);
+  border-radius:var(--r-lg);
+  padding:22px 16px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .2s;
+  background:rgba(255,255,255,.02);
+}
+.upzone:hover,.upzone.ov{
+  border-color:var(--amber);
+  background:var(--amber-glow);
+}
+.upzone input{display:none}
+.upzone-icon{
+  width:44px;
+  height:44px;
+  border-radius:var(--r-lg);
+  background:rgba(245,158,11,.12);
+  border:1px solid rgba(245,158,11,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  margin:0 auto 10px;
+}
+.upzone-title{font-weight:700;font-size:13px;color:var(--white);margin-bottom:4px}
+.upzone-sub{font-size:11px;color:var(--muted);line-height:1.55}
+
+/* ═══════════════════════════════════════════════════
+   QUICK ACTIONS ROW
+═══════════════════════════════════════════════════ */
+.quick-row{display:flex;gap:6px}
+.quick-btn{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  padding:8px 6px;
+  border-radius:var(--r-md);
+  font-size:12px;
+  font-weight:600;
+  transition:all .15s;
+}
+.quick-btn.amber{
+  background:var(--amber);
+  color:var(--ink);
+}
+.quick-btn.amber:hover{background:var(--amber-d)}
+.quick-btn.ghost{
+  background:rgba(255,255,255,.05);
+  color:var(--subtle);
+  border:1px solid rgba(255,255,255,.08);
+}
+.quick-btn.ghost:hover{background:rgba(255,255,255,.1);color:var(--white)}
+
+/* ═══════════════════════════════════════════════════
+   DESIGN LIST
+═══════════════════════════════════════════════════ */
+#designList{display:flex;flex-direction:column;gap:6px}
+.dl-item{
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r-md);
+  background:rgba(255,255,255,.03);
+  overflow:hidden;
+  transition:border-color .15s, background .15s;
+}
+.dl-item:hover{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.04)}
+.dl-top{display:flex;align-items:center;gap:10px;padding:9px 10px}
+.dl-thumb{
+  width:42px;
+  height:42px;
+  border-radius:var(--r-sm);
+  background:rgba(255,255,255,.06);
+  overflow:hidden;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.08);
+}
+.dl-thumb img{width:100%;height:100%;object-fit:contain}
+.dl-info{flex:1;min-width:0}
+.dl-name{font-size:12px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dl-dims{font-size:10.5px;color:var(--muted);margin-top:2px;font-weight:500}
+.dl-actions{display:flex;gap:4px;flex-shrink:0}
+.dl-btn{
+  width:28px;height:28px;
+  border-radius:var(--r-sm);
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  color:var(--subtle);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;
+  transition:all .14s;
+}
+.dl-btn:hover{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.1);color:var(--amber)}
+.dl-btn.del:hover{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.1);color:var(--red)}
+.dl-bottom{
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:8px 10px;
+  background:rgba(0,0,0,.15);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+/* Qty stepper */
+.qty-wrap{display:flex;align-items:center;gap:6px}
+.qty-lbl{font-size:10.5px;font-weight:600;color:var(--muted)}
+.qty-stepper{
+  display:flex;align-items:center;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-sm);
+  overflow:hidden;
+  background:rgba(255,255,255,.04);
+}
+.qty-stepper button{
+  width:24px;height:24px;
+  font-size:14px;font-weight:700;
+  color:var(--subtle);
+  background:none;
+  transition:all .12s;
+}
+.qty-stepper button:hover{background:rgba(245,158,11,.15);color:var(--amber)}
+.qty-stepper span{
+  padding:0 7px;
+  font-size:12px;font-weight:700;
+  color:var(--white);
+  min-width:22px;
+  text-align:center;
+}
+/* Size inputs */
+.size-fields{display:flex;align-items:center;gap:5px}
+.sf{display:flex;align-items:center;gap:3px}
+.sf label{font-size:10.5px;font-weight:700;color:var(--muted)}
+.sf input{
+  width:44px;
+  padding:4px 5px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:4px;
+  font-size:11px;font-weight:600;
+  color:var(--white);
+  text-align:center;
+  transition:border .14s;
+}
+.sf input:focus{outline:none;border-color:var(--amber);background:rgba(245,158,11,.08)}
+.link-btn{
+  width:20px;height:20px;
+  font-size:12px;
+  color:var(--muted);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:color .12s;
+}
+.link-btn:hover{color:var(--amber)}
+
+/* Empty list state */
+.designs-empty{
+  text-align:center;
+  padding:24px 16px;
+  color:var(--muted);
+  font-size:12px;
+  border:1px dashed rgba(255,255,255,.07);
+  border-radius:var(--r-md);
+}
+.designs-empty .de-icon{font-size:24px;margin-bottom:8px;opacity:.5}
+
+/* ═══════════════════════════════════════════════════
+   CANVAS AREA
+═══════════════════════════════════════════════════ */
+#canvasOuter{
+  flex:1;
+  overflow:auto;
+  background:radial-gradient(ellipse at 50% 30%, #1e293b 0%, #0f172a 100%);
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:28px;
+  position:relative;
+  cursor:default;
+}
+/* Subtle dot grid background */
+#canvasOuter::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size:24px 24px;
+  pointer-events:none;
+}
+#canvasInner{
+  transform-origin:top center;
+  transition:transform .18s ease;
+  position:relative;
+  z-index:1;
+}
+#sheet{
+  background:#fff;
+  position:relative;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 20px 60px rgba(0,0,0,.5),
+    0 4px 16px rgba(0,0,0,.3);
+  cursor:crosshair;
+}
+#emptyState{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  pointer-events:none;
+  color:#94a3b8;
+}
+.es-ring{
+  width:72px;height:72px;
+  border-radius:50%;
+  border:2px dashed rgba(148,163,184,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  opacity:.5;
+}
+.es-title{font-size:14px;font-weight:600;color:#64748b}
+.es-sub{font-size:12px;color:#475569;text-align:center;line-height:1.6}
+.es-sub b{color:#64748b}
+
+#snapGrid{
+  position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .2s;
+  background-image:
+    linear-gradient(rgba(245,158,11,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,158,11,.08) 1px, transparent 1px);
+}
+#snapGrid.show{opacity:1}
+#selBox{
+  position:absolute;
+  border:1.5px dashed rgba(245,158,11,.7);
+  background:rgba(245,158,11,.05);
+  pointer-events:none;
+  display:none;
+}
+
+/* ═══════════════════════════════════════════════════
+   CANVAS ITEMS
+═══════════════════════════════════════════════════ */
+.item{position:absolute;cursor:move;user-select:none;transform-origin:center center}
+.item-img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.item-border{
+  position:absolute;inset:-1px;
+  border:2px dashed transparent;
+  border-radius:2px;
+  pointer-events:none;
+  transition:border-color .1s, box-shadow .1s;
+}
+.item:hover .item-border{border-color:rgba(245,158,11,.5)}
+.item.sel .item-border{
+  border-color:var(--amber);
+  border-style:solid;
+  box-shadow:0 0 0 1px rgba(245,158,11,.2), inset 0 0 0 1px rgba(245,158,11,.1);
+}
+/* 8 resize handles */
+.handle{
+  position:absolute;
+  width:9px;height:9px;
+  background:var(--white);
+  border:2px solid var(--amber);
+  border-radius:2px;
+  z-index:5;
+  display:none;
+  box-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.item.sel .handle{display:block}
+.h-tl{top:-5px;left:-5px;cursor:nw-resize}
+.h-tr{top:-5px;right:-5px;cursor:ne-resize}
+.h-bl{bottom:-5px;left:-5px;cursor:sw-resize}
+.h-br{bottom:-5px;right:-5px;cursor:se-resize}
+.h-tm{top:-5px;left:50%;transform:translateX(-50%);cursor:n-resize}
+.h-bm{bottom:-5px;left:50%;transform:translateX(-50%);cursor:s-resize}
+.h-ml{top:50%;left:-5px;transform:translateY(-50%);cursor:w-resize}
+.h-mr{top:50%;right:-5px;transform:translateY(-50%);cursor:e-resize}
+/* Rotate handle */
+.h-rot{
+  position:absolute;top:-28px;left:50%;transform:translateX(-50%);
+  width:20px;height:20px;
+  background:linear-gradient(135deg, var(--amber), var(--amber-d));
+  border-radius:50%;
+  color:var(--ink);font-size:11px;font-weight:900;
+  display:none;align-items:center;justify-content:center;
+  cursor:grab;z-index:5;
+  box-shadow:0 2px 8px rgba(245,158,11,.5);
+}
+.item.sel .h-rot{display:flex}
+.h-rot:active{cursor:grabbing}
+/* Delete handle */
+.h-del{
+  position:absolute;top:-10px;right:-10px;
+  width:18px;height:18px;
+  background:var(--red);border-radius:50%;
+  color:#fff;font-size:12px;font-weight:700;line-height:18px;text-align:center;
+  display:none;cursor:pointer;z-index:6;
+  box-shadow:var(--shadow-sm);
+  transition:transform .12s;
+}
+.item.sel .h-del{display:block}
+.h-del:hover{transform:scale(1.15)}
+/* Qty badge */
+.item-qty{
+  position:absolute;bottom:4px;right:4px;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(4px);
+  color:#fff;font-size:9px;font-weight:700;
+  padding:2px 6px;border-radius:3px;
+  pointer-events:none;
+}
+/* Size info badge */
+.item-info{
+  position:absolute;top:4px;left:4px;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(4px);
+  color:#fff;font-size:9px;font-weight:600;
+  padding:2px 6px;border-radius:3px;
+  pointer-events:none;display:none;
+}
+.item.sel .item-info{display:block}
+
+/* ═══════════════════════════════════════════════════
+   ZOOM BAR (floating)
+═══════════════════════════════════════════════════ */
+#zoomBar{
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:6px;
+  background:rgba(15,23,42,.9);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-xl);
+  padding:6px 10px;
+  color:var(--white);
+  font-size:12px;font-weight:600;
+  box-shadow:var(--shadow-md);
+  z-index:10;
+}
+#zoomBar button{
+  background:rgba(255,255,255,.08);
+  border-radius:var(--r-sm);
+  color:var(--subtle);
+  width:24px;height:24px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;
+  transition:all .12s;
+}
+#zoomBar button:hover{background:rgba(255,255,255,.18);color:var(--white)}
+#zoomLbl{min-width:38px;text-align:center;color:var(--white);font-size:12px}
+
+/* ═══════════════════════════════════════════════════
+   RIGHT PANEL — PRICING & ORDER
+═══════════════════════════════════════════════════ */
+
+/* Sheet info card */
+.sheet-card{
+  background:rgba(245,158,11,.07);
+  border:1px solid rgba(245,158,11,.2);
+  border-radius:var(--r-lg);
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.sheet-icon{font-size:20px;flex-shrink:0}
+.sheet-title{font-size:13px;font-weight:700;color:var(--white)}
+.sheet-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* Coverage */
+.cov-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.cov-pct-badge{
+  font-size:13px;font-weight:800;
+  color:var(--amber);
+  font-family:'Syne',sans-serif;
+}
+.cov-bar{height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.cov-fill{
+  height:100%;border-radius:99px;
+  background:linear-gradient(90deg, var(--green), var(--amber));
+  transition:width .5s ease;
+}
+.cov-note{font-size:11px;color:var(--muted);margin-top:6px}
+
+/* Pricing card */
+.price-card{
+  background:linear-gradient(135deg, rgba(245,158,11,.08), rgba(245,158,11,.04));
+  border:1px solid rgba(245,158,11,.18);
+  border-radius:var(--r-lg);
+  padding:14px;
+  position:relative;
+  overflow:hidden;
+}
+.price-card::before{
+  content:'';
+  position:absolute;top:0;right:0;
+  width:80px;height:80px;
+  background:radial-gradient(circle, rgba(245,158,11,.12), transparent 70%);
+  border-radius:50%;
+  transform:translate(20px,-20px);
+}
+.price-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:5px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  font-size:12px;
+}
+.price-row:last-of-type{border:none}
+.p-lbl{color:var(--muted);font-weight:500}
+.p-val{font-weight:700;color:var(--white)}
+.price-total-row{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:baseline;gap:4px;
+}
+.price-total{
+  font-family:'Syne',sans-serif;
+  font-size:28px;font-weight:800;
+  color:var(--amber);
+  line-height:1;
+}
+.price-total-label{font-size:11px;color:var(--muted)}
+.price-tip{
+  margin-top:8px;
+  font-size:10.5px;color:var(--amber);
+  display:flex;align-items:center;gap:4px;
+  opacity:.8;
+}
+
+/* Rush toggle */
+.rush-card{
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r-lg);
+  padding:12px 14px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;
+  transition:all .18s;
+  background:rgba(255,255,255,.02);
+}
+.rush-card:hover{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04)}
+.rush-card.on{border-color:var(--amber);background:rgba(245,158,11,.07)}
+.rush-text{flex:1}
+.rush-title{font-size:12px;font-weight:700;color:var(--white)}
+.rush-sub{font-size:11px;color:var(--muted);margin-top:2px}
+/* Toggle pill */
+.tog-pill{
+  width:38px;height:20px;
+  background:rgba(255,255,255,.08);
+  border-radius:20px;
+  position:relative;
+  transition:.2s;
+  flex-shrink:0;
+}
+.tog-pill::after{
+  content:'';
+  position:absolute;top:2px;left:2px;
+  width:16px;height:16px;
+  background:var(--subtle);
+  border-radius:50%;
+  transition:.2s;
+  box-shadow:0 1px 3px rgba(0,0,0,.3);
+}
+.rush-card.on .tog-pill{background:var(--amber)}
+.rush-card.on .tog-pill::after{left:20px;background:var(--white)}
+
+/* Qty input */
+.qty-row-outer{display:flex;align-items:center;gap:8px}
+.qty-input{
+  width:68px;
+  padding:7px 10px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-md);
+  color:var(--white);
+  font-size:13px;font-weight:700;
+  text-align:center;
+  transition:border .14s;
+}
+.qty-input:focus{outline:none;border-color:var(--amber);background:rgba(245,158,11,.08)}
+.qty-aside{font-size:11px;color:var(--muted)}
+.vol-note{
+  margin-top:6px;
+  font-size:11px;
+  color:var(--muted);
+  display:flex;align-items:center;gap:4px;
+}
+.vol-note.good{color:var(--green)}
+
+/* Order form */
+.form-row{margin-bottom:10px}
+.form-row label{
+  display:block;
+  font-size:10.5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.6px;
+  color:var(--muted);margin-bottom:5px;
+}
+.form-row input,
+.form-row textarea{
+  width:100%;
+  padding:8px 11px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:var(--r-md);
+  color:var(--white);
+  font-size:12.5px;
+  outline:none;
+  transition:all .15s;
+}
+.form-row input::placeholder,
+.form-row textarea::placeholder{color:var(--muted)}
+.form-row input:focus,
+.form-row textarea:focus{
+  border-color:var(--amber);
+  background:rgba(245,158,11,.06);
+  box-shadow:0 0 0 3px rgba(245,158,11,.12);
+}
+.form-row textarea{min-height:70px;resize:vertical}
+.submit-btn{
+  width:100%;padding:13px;
+  background:linear-gradient(135deg, var(--amber), var(--amber-d));
+  color:var(--ink);
+  border-radius:var(--r-lg);
+  font-size:14px;font-weight:800;
+  letter-spacing:.2px;
+  transition:all .18s;
+  box-shadow:0 4px 14px rgba(245,158,11,.3);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:6px;
+}
+.submit-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(245,158,11,.4);
+}
+.submit-btn:active{transform:translateY(0)}
+
+/* Divider */
+.sp-divider{height:1px;background:rgba(255,255,255,.06);margin:2px 0}
+
+/* ═══════════════════════════════════════════════════
+   BOTTOM STATUS BAR
+═══════════════════════════════════════════════════ */
+#statusBar{
+  background:rgba(15,23,42,.95);
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;gap:16px;
+  padding:0 16px;height:26px;
+  flex-shrink:0;
+  font-size:11px;color:var(--muted);
+}
+.sb-item{display:flex;align-items:center;gap:4px}
+.sb-item b{color:var(--subtle);font-weight:700}
+.sb-sep{width:1px;height:12px;background:rgba(255,255,255,.08)}
+#sbRight{margin-left:auto;font-size:10.5px;color:var(--ink-3)}
+
+/* ═══════════════════════════════════════════════════
+   MODALS
+═══════════════════════════════════════════════════ */
+.modal-ov{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(8px);
+  z-index:1000;align-items:center;justify-content:center;
+}
+.modal-ov.open{display:flex}
+.modal{
+  background:var(--ink-2);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-2xl);
+  padding:36px 32px;
+  max-width:440px;width:90%;
+  box-shadow:var(--shadow-xl);
+  text-align:center;
+  animation:modalIn .25s ease;
+}
+@keyframes modalIn{
+  from{opacity:0;transform:scale(.95) translateY(8px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+.modal-icon{font-size:44px;margin-bottom:14px}
+.modal h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px;color:var(--white)}
+.modal p{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:22px}
+.modal p a{color:var(--amber)}
+.modal p b{color:var(--white)}
+.modal-btn{
+  padding:10px 28px;
+  border-radius:var(--r-lg);
+  font-size:13px;font-weight:700;
+  background:var(--amber);color:var(--ink);
+  transition:all .15s;
+}
+.modal-btn:hover{background:var(--amber-d)}
+.modal-btn.ghost{
+  background:rgba(255,255,255,.06);
+  color:var(--subtle);
+  border:1px solid rgba(255,255,255,.1);
+  margin-right:8px;
+}
+.modal-btn.ghost:hover{background:rgba(255,255,255,.1);color:var(--white)}
+
+/* Help modal */
+.help-step{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;
+  border-radius:var(--r-md);
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  text-align:left;
+}
+.help-num{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--amber);color:var(--ink);
+  font-size:11px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.help-text{font-size:12.5px;color:var(--subtle);line-height:1.55}
+.help-text b{color:var(--white)}
+.shortcut-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:4px;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--r-md);
+  padding:10px;
+}
+.sc-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.sc-key{
+  padding:1px 6px;border-radius:3px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--white);font-size:10px;font-weight:700;
+  font-family:monospace;
+}
+
+/* ═══════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════ */
+#toast{
+  position:fixed;bottom:44px;left:50%;
+  transform:translateX(-50%) translateY(12px);
+  background:var(--ink-2);
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--white);
+  padding:9px 18px;
+  border-radius:var(--r-xl);
+  font-size:12.5px;font-weight:600;
+  opacity:0;pointer-events:none;
+  transition:all .22s cubic-bezier(.34,1.56,.64,1);
+  z-index:9999;white-space:nowrap;
+  box-shadow:var(--shadow-lg);
+  display:flex;align-items:center;gap:7px;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.warn{background:#451a03;border-color:rgba(245,158,11,.3);color:#fde68a}
+#toast.success{background:#052e16;border-color:rgba(16,185,129,.3);color:#6ee7b7}
+#toast.err{background:#450a0a;border-color:rgba(239,68,68,.3);color:#fca5a5}
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div id="topbar">
+  🔥 AMJ Mark — Premium DTF Transfers &nbsp;·&nbsp; As low as $0.02/sq in &nbsp;·&nbsp; Questions? <a href="mailto:aabushaa@gmail.com">aabushaa@gmail.com</a>
+</div>
+
+<!-- NAV -->
+<div id="nav">
+  <a href="/" class="logo" style="text-decoration:none">
+    <div class="logo-mark">AM</div>
+    <div>
+      <div class="logo-text">AMJ Mark</div>
+      <span class="logo-sub">DTF Gang Sheet Builder</span>
+    </div>
+  </a>
+
+  <div class="nav-tabs">
+    <button class="nav-tab act">Gang Sheet Builder</button>
+    <button class="nav-tab" onclick="toast('Pro uploader — coming soon!','')">Pro Uploader</button>
+  </div>
+
+  <div class="spacer"></div>
+
+  <a class="nav-action" href="/shop">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Shop
+  </a>
+  <button class="nav-action" onclick="document.getElementById('helpModal').classList.add('open')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    Help
+  </button>
+  <button class="nav-action cta" onclick="goToOrder()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    Add to Cart
+  </button>
+</div>
+
+<!-- TOOLBAR -->
+<div id="toolbar">
+  <button class="tb-btn primary" onclick="autoBuild()">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    Auto Build
+  </button>
+  <button class="tb-btn success" onclick="document.getElementById('fileInput').click()">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    Upload
+  </button>
+
+  <div class="tb-sep"></div>
+
+  <button class="tb-btn" onclick="duplicateSelected()" title="Ctrl+D">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    Duplicate
+  </button>
+  <button class="tb-btn" onclick="rotateSelected(90)" title="R">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+    Rotate 90°
+  </button>
+  <button class="tb-btn" onclick="alignSelected('hcenter')">⟺ Center H</button>
+  <button class="tb-btn" onclick="alignSelected('vcenter')">⟺ Center V</button>
+
+  <div class="tb-sep"></div>
+
+  <button class="tb-btn" id="snapBtn" onclick="toggleSnap()" title="S">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+    Snap
+  </button>
+  <button class="tb-btn" onclick="zoom(0)" title="0">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+    Fit
+  </button>
+  <button class="tb-btn" onclick="zoom(-0.15)" style="padding:5px 8px;font-weight:700">−</button>
+  <span id="zoomLbl" style="font-size:12px;font-weight:700;min-width:38px;text-align:center;color:var(--subtle)">100%</span>
+  <button class="tb-btn" onclick="zoom(0.15)" style="padding:5px 8px;font-weight:700">+</button>
+
+  <div class="tb-sep"></div>
+
+  <button class="tb-btn danger-h" onclick="deleteSelected()" title="Del">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+    Delete
+  </button>
+  <button class="tb-btn danger-h" onclick="clearAll()">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Clear All
+  </button>
+
+  <span id="tbInfo">0 items · 22.5" × 0"</span>
+</div>
+
+<!-- WORKSPACE -->
+<div id="workspace">
+
+  <!-- ── LEFT: UPLOADS ── -->
+  <div class="sp" id="leftPanel">
+    <div class="sp-hd">
+      <div class="sp-hd-title">
+        <div class="sp-hd-icon amber">🖼</div>
+        Designs
+      </div>
+      <span class="sp-badge" id="designCount">0 files</span>
+    </div>
+    <div class="sp-body">
+
+      <!-- Upload zone -->
+      <div>
+        <div class="upzone" id="uploadZone"
+          onclick="document.getElementById('fileInput').click()"
+          ondragover="event.preventDefault();this.classList.add('ov')"
+          ondragleave="this.classList.remove('ov')"
+          ondrop="dropFiles(event)">
+          <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/svg+xml" multiple onchange="pickFiles(this.files)"/>
+          <div class="upzone-icon">⬆</div>
+          <div class="upzone-title">Click or Drop Files Here</div>
+          <div class="upzone-sub">PNG · JPG · WebP · SVG<br>Transparent BG preferred · Auto-sized at 300 DPI</div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="quick-row">
+        <button class="quick-btn amber" onclick="autoBuild()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Auto Build
+        </button>
+        <button class="quick-btn ghost" onclick="clearAll()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Clear Sheet
+        </button>
+      </div>
+
+      <!-- Design list -->
+      <div>
+        <div class="sp-label">Uploaded Designs</div>
+        <div id="designList">
+          <div class="designs-empty" id="designsEmpty">
+            <div class="de-icon">🖼</div>
+            Upload designs to get started
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CENTER: CANVAS ── -->
+  <div id="canvasOuter" onmousedown="outerClick(event)" ondblclick="outerDblClick(event)">
+    <div id="canvasInner">
+      <div id="sheet">
+        <div id="snapGrid"></div>
+        <div id="selBox"></div>
+        <div id="emptyState">
+          <div class="es-ring">🖨</div>
+          <div class="es-title">Your Gang Sheet</div>
+          <div class="es-sub">Upload designs on the left, then click<br><b>⚡ Auto Build</b> to pack them instantly<br>or click <b>＋</b> to place one at a time</div>
+        </div>
+      </div>
+    </div>
+    <div id="zoomBar">
+      <button onclick="zoom(-0.15)">−</button>
+      <span id="zoomLbl2">100%</span>
+      <button onclick="zoom(0.15)">+</button>
+      <button onclick="zoom(0)" style="font-size:10px;width:auto;padding:0 8px">Fit</button>
+    </div>
+  </div>
+
+  <!-- ── RIGHT: PRICING & ORDER ── -->
+  <div class="sp" id="rightPanel">
+    <div class="sp-hd">
+      <div class="sp-hd-title">
+        <div class="sp-hd-icon green">💰</div>
+        Pricing & Order
+      </div>
+    </div>
+    <div class="sp-body">
+
+      <!-- Sheet info -->
+      <div class="sheet-card">
+        <div class="sheet-icon">📋</div>
+        <div>
+          <div class="sheet-title">22.5" × <span id="sheetHDisplay">6.0</span>" sheet</div>
+          <div class="sheet-sub">Height auto-grows as you add designs</div>
+        </div>
+      </div>
+
+      <!-- Coverage -->
+      <div>
+        <div class="cov-header">
+          <div class="sp-label" style="margin:0">Sheet Coverage</div>
+          <span class="cov-pct-badge" id="covPct">0%</span>
+        </div>
+        <div class="cov-bar"><div class="cov-fill" id="covFill" style="width:0%"></div></div>
+        <div class="cov-note" id="covNote">Add designs to fill your sheet</div>
+      </div>
+
+      <div class="sp-divider"></div>
+
+      <!-- Live price -->
+      <div>
+        <div class="sp-label">Live Price Estimate</div>
+        <div class="price-card">
+          <div class="price-row"><span class="p-lbl">Rate</span><span class="p-val" id="pRate">$0.030/sq in</span></div>
+          <div class="price-row"><span class="p-lbl">Sheet area</span><span class="p-val" id="pSqIn">—</span></div>
+          <div class="price-row"><span class="p-lbl">Sheets</span><span class="p-val" id="pSheets">× 1</span></div>
+          <div id="rushRow" style="display:none">
+            <div class="price-row"><span class="p-lbl">⚡ Rush</span><span class="p-val" style="color:var(--amber)">+$20.00</span></div>
+          </div>
+          <div class="price-total-row">
+            <span class="price-total" id="pTotal">$0.00</span>
+            <span class="price-total-label">total</span>
+          </div>
+          <div class="price-tip">💡 Order 20+ ft for $0.02/sq in</div>
+        </div>
+      </div>
+
+      <!-- Rush service -->
+      <div>
+        <div class="sp-label">Rush Service</div>
+        <div class="rush-card" id="rushCard" onclick="toggleRush()">
+          <div style="font-size:18px">⚡</div>
+          <div class="rush-text">
+            <div class="rush-title">Skip the Line — Same/Next Day</div>
+            <div class="rush-sub">+$20.00 · Guaranteed next business day</div>
+          </div>
+          <div class="tog-pill"></div>
+        </div>
+      </div>
+
+      <!-- Sheet quantity -->
+      <div>
+        <div class="sp-label">Number of Sheets</div>
+        <div class="qty-row-outer">
+          <input type="number" id="sheetQty" class="qty-input" min="1" value="1" oninput="updatePrice()"/>
+          <span class="qty-aside">copies of this layout</span>
+        </div>
+        <div class="vol-note" id="volNote">Order 10+ sheets for volume discount</div>
+      </div>
+
+      <div class="sp-divider"></div>
+
+      <!-- Design notes + add to cart -->
+      <div>
+        <div class="sp-label">Design Notes</div>
+        <div class="form-row"><textarea id="oNotes" placeholder="Color notes, special instructions…"></textarea></div>
+        <button class="submit-btn" onclick="submitOrder()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Add to Cart — <span id="btnTotal">$0.00</span>
+        </button>
+        <div style="text-align:center;margin-top:8px"><a href="/cart" style="font-size:11px;color:var(--muted)">View Cart →</a></div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /workspace -->
+
+<!-- STATUS BAR -->
+<div id="statusBar">
+  <div class="sb-item">Items: <b id="bbItems">0</b></div>
+  <div class="sb-sep"></div>
+  <div class="sb-item">Coverage: <b id="bbCov">0%</b></div>
+  <div class="sb-sep"></div>
+  <div class="sb-item">Zoom: <b id="bbZoom">100%</b></div>
+  <div class="sb-sep"></div>
+  <div class="sb-item" id="bbSheetSize">Sheet: 22.5" × 0"</div>
+  <div id="sbRight">© AMJ Mark · aabushaa@gmail.com &nbsp;|&nbsp; <b>Del</b>=delete · <b>R</b>=rotate · <b>Ctrl+D</b>=duplicate · <b>Arrows</b>=nudge · <b>0</b>=fit</div>
+</div>
+
+<!-- ADDED TO CART MODAL -->
+<div class="modal-ov" id="orderModal">
+  <div class="modal">
+    <div class="modal-icon">🛒</div>
+    <h2>Added to Cart!</h2>
+    <p>
+      Your gang sheet design has been saved. Head to your cart to review it alongside anything else you're
+      ordering, then checkout securely.<br/><br/>
+      Standard turnaround: <b>48 hours</b> · Rush: <b>same/next day</b>
+    </p>
+    <a class="modal-btn" href="/cart">Go to Cart</a>
+  </div>
+</div>
+
+<!-- HELP MODAL -->
+<div class="modal-ov" id="helpModal">
+  <div class="modal" style="text-align:left;max-width:480px">
+    <h2 style="text-align:center;margin-bottom:20px">How to Use</h2>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+      <div class="help-step"><div class="help-num">1</div><div class="help-text"><b>Upload designs</b> — drag or click to add PNG/JPG files. Set W/H and qty per design.</div></div>
+      <div class="help-step"><div class="help-num">2</div><div class="help-text"><b>Auto Build</b> — instantly packs all designs at 300 DPI using shelf-packing.</div></div>
+      <div class="help-step"><div class="help-num">3</div><div class="help-text"><b>Fine-tune</b> — drag to reposition, 8 handles to resize, orange dot to rotate.</div></div>
+      <div class="help-step"><div class="help-num">4</div><div class="help-text"><b>Rush option</b> — toggle for same/next-day production (+$20).</div></div>
+      <div class="help-step"><div class="help-num">5</div><div class="help-text"><b>Order</b> — fill your details and click Place Order.</div></div>
+    </div>
+    <div class="sp-label">Keyboard Shortcuts</div>
+    <div class="shortcut-grid">
+      <div class="sc-item"><span class="sc-key">Del</span> Delete selected</div>
+      <div class="sc-item"><span class="sc-key">R</span> Rotate 90°</div>
+      <div class="sc-item"><span class="sc-key">Ctrl+D</span> Duplicate</div>
+      <div class="sc-item"><span class="sc-key">S</span> Toggle snap</div>
+      <div class="sc-item"><span class="sc-key">0</span> Fit to screen</div>
+      <div class="sc-item"><span class="sc-key">+/-</span> Zoom in/out</div>
+      <div class="sc-item"><span class="sc-key">Arrows</span> Nudge</div>
+      <div class="sc-item"><span class="sc-key">Shift+↑↓</span> Nudge 0.1"</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:20px">
+      <button class="modal-btn" style="flex:1" onclick="document.getElementById('helpModal').classList.remove('open')">Got it</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+// CONSTANTS
+// ════════════════════════════════════════════════════════════════
+const PRINT_DPI  = 300;
+const SCREEN_PPI = 96;
+const SHEET_W_IN = 22.5;
+const MIN_H_IN   = 6;
+const GAP_IN     = 0.1;
+const SNAP_IN    = 0.25;
+const RUSH_PRICE = 20;
+
+// ════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════
+let designs  = [];
+let items    = [];
+let idSeq    = 0;
+let selected = null;
+let sheetH   = MIN_H_IN;
+let zoomLevel= 1.0;
+let snapOn   = false;
+let rushOn   = false;
+
+let iDrag=null, iResize=null, iRot=null;
+let pointerStart={}, elemStart={};
+
+// ════════════════════════════════════════════════════════════════
+// UNIT HELPERS
+// ════════════════════════════════════════════════════════════════
+function inToCpx(i){ return i * SCREEN_PPI; }
+function cpxToIn(p){ return p / SCREEN_PPI; }
+
+// ════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════
+window.onload = () => { setSheetSize(MIN_H_IN); updatePrice(); setTimeout(fitToScreen, 80); };
+window.addEventListener('resize', () => setTimeout(fitToScreen, 100));
+
+// ════════════════════════════════════════════════════════════════
+// SHEET SIZE
+// ════════════════════════════════════════════════════════════════
+function setSheetSize(h){
+  sheetH = Math.max(MIN_H_IN, h);
+  const sc = document.getElementById('sheet');
+  sc.style.width  = inToCpx(SHEET_W_IN) + 'px';
+  sc.style.height = inToCpx(sheetH) + 'px';
+  const gPx = inToCpx(SNAP_IN);
+  document.getElementById('snapGrid').style.backgroundSize = gPx+'px '+gPx+'px';
+  document.getElementById('sheetHDisplay').textContent = sheetH.toFixed(1);
+  document.getElementById('tbInfo').textContent = `${items.length} item${items.length!==1?'s':''} · ${SHEET_W_IN}" × ${sheetH.toFixed(1)}"`;
+  document.getElementById('bbSheetSize').textContent = `Sheet: ${SHEET_W_IN}" × ${sheetH.toFixed(1)}"`;
+  updatePrice();
+}
+
+function autoGrowSheet(){
+  if(!items.length){ setSheetSize(MIN_H_IN); return; }
+  let maxY = 0;
+  items.forEach(it => maxY = Math.max(maxY, it.y + it.h));
+  const needed = cpxToIn(maxY) + GAP_IN * 2;
+  setSheetSize(Math.max(MIN_H_IN, Math.ceil(needed * 4) / 4));
+}
+
+// ════════════════════════════════════════════════════════════════
+// FILE HANDLING
+// ════════════════════════════════════════════════════════════════
+function pickFiles(files){
+  Array.from(files).filter(f => f.type.startsWith('image/')).forEach(loadDesign);
+  document.getElementById('fileInput').value = '';
+}
+function dropFiles(e){
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('ov');
+  pickFiles(e.dataTransfer.files);
+}
+
+function loadDesign(file){
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const id = ++idSeq;
+      let inchW = img.naturalWidth  / PRINT_DPI;
+      let inchH = img.naturalHeight / PRINT_DPI;
+      if(inchW > SHEET_W_IN - GAP_IN*2){
+        const s = (SHEET_W_IN - GAP_IN*2) / inchW;
+        inchW = +(inchW*s).toFixed(3); inchH = +(inchH*s).toFixed(3);
+      }
+      const d = {id, src:ev.target.result, name:file.name, natW:img.naturalWidth, natH:img.naturalHeight, inchW, inchH, qty:1, linked:true};
+      designs.push(d);
+      renderDesignItem(d);
+      document.getElementById('designsEmpty').style.display = 'none';
+      document.getElementById('designCount').textContent = designs.length + ' file' + (designs.length!==1?'s':'');
+      toast(`✓ ${file.name} · ${inchW.toFixed(1)}" × ${inchH.toFixed(1)}" @ 300 DPI`, 'success');
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ════════════════════════════════════════════════════════════════
+// DESIGN LIST
+// ════════════════════════════════════════════════════════════════
+function renderDesignItem(d){
+  const list = document.getElementById('designList');
+  const div = document.createElement('div');
+  div.className = 'dl-item'; div.id = 'dli_'+d.id;
+  div.innerHTML = `
+    <div class="dl-top">
+      <div class="dl-thumb"><img src="${d.src}"/></div>
+      <div class="dl-info">
+        <div class="dl-name" title="${d.name}">${d.name}</div>
+        <div class="dl-dims" id="dld_${d.id}">${d.inchW.toFixed(2)}" × ${d.inchH.toFixed(2)}"</div>
+      </div>
+      <div class="dl-actions">
+        <button class="dl-btn" onclick="addToSheet(${d.id})" title="Place on sheet">＋</button>
+        <button class="dl-btn del" onclick="removeDesign(${d.id})" title="Remove">✕</button>
+      </div>
+    </div>
+    <div class="dl-bottom">
+      <div class="qty-wrap">
+        <span class="qty-lbl">Qty</span>
+        <div class="qty-stepper">
+          <button onclick="changeDesignQty(${d.id},-1)">−</button>
+          <span id="dq_${d.id}">1</span>
+          <button onclick="changeDesignQty(${d.id},+1)">+</button>
+        </div>
+      </div>
+      <div class="size-fields">
+        <div class="sf"><label>W</label><input id="dsw_${d.id}" value="${d.inchW.toFixed(2)}" onchange="resizeDesignInput(${d.id},'w',this.value)"/></div>
+        <div class="link-btn" id="lnk_${d.id}" onclick="toggleLink(${d.id})" title="Lock aspect ratio">🔗</div>
+        <div class="sf"><label>H</label><input id="dsh_${d.id}" value="${d.inchH.toFixed(2)}" onchange="resizeDesignInput(${d.id},'h',this.value)"/></div>
+        <span style="font-size:10px;color:var(--muted)">"</span>
+      </div>
+    </div>`;
+  list.appendChild(div);
+}
+
+function changeDesignQty(did, delta){
+  const d = designs.find(x=>x.id===did); if(!d) return;
+  d.qty = Math.max(1, d.qty + delta);
+  const el = document.getElementById('dq_'+did); if(el) el.textContent = d.qty;
+}
+
+function resizeDesignInput(did, axis, val){
+  const v = parseFloat(val);
+  if(isNaN(v)||v<=0) return;
+  const d = designs.find(x=>x.id===did); if(!d) return;
+  if(axis==='w'){ if(d.linked){ d.inchH = +(v*(d.inchH/d.inchW)).toFixed(3); } d.inchW=+v.toFixed(3); }
+  else          { if(d.linked){ d.inchW = +(v*(d.inchW/d.inchH)).toFixed(3); } d.inchH=+v.toFixed(3); }
+  const we=document.getElementById('dsw_'+did); if(we) we.value=d.inchW.toFixed(2);
+  const he=document.getElementById('dsh_'+did); if(he) he.value=d.inchH.toFixed(2);
+  document.getElementById('dld_'+did).textContent = `${d.inchW.toFixed(2)}" × ${d.inchH.toFixed(2)}"`;
+}
+
+function toggleLink(did){
+  const d = designs.find(x=>x.id===did); if(!d) return;
+  d.linked = !d.linked;
+  const el = document.getElementById('lnk_'+did);
+  if(el){ el.textContent = d.linked ? '🔗' : '✂'; el.style.color = d.linked ? '' : 'var(--red)'; }
+}
+
+function removeDesign(did){
+  designs = designs.filter(d=>d.id!==did);
+  const li = document.getElementById('dli_'+did); if(li) li.remove();
+  items.filter(it=>it.did===did).forEach(it=>it.el.remove());
+  items = items.filter(it=>it.did!==did);
+  const n = designs.length;
+  document.getElementById('designCount').textContent = n + ' file' + (n!==1?'s':'');
+  if(!n) document.getElementById('designsEmpty').style.display = '';
+  if(!items.length) document.getElementById('emptyState').style.display = 'flex';
+  autoGrowSheet(); updateCoverage(); syncInfo();
+}
+
+// ════════════════════════════════════════════════════════════════
+// PLACE ON SHEET
+// ════════════════════════════════════════════════════════════════
+function addToSheet(did, xIn, yIn, qty){
+  const d = designs.find(x=>x.id===did); if(!d) return null;
+  const q  = qty !== undefined ? qty : d.qty;
+  const iw = inToCpx(d.inchW);
+  const ih = inToCpx(d.inchH);
+  const x  = xIn !== undefined ? inToCpx(xIn) : inToCpx(GAP_IN) + (items.length%6)*inToCpx(0.12);
+  const y  = yIn !== undefined ? inToCpx(yIn) : inToCpx(GAP_IN) + (items.length%6)*inToCpx(0.12);
+  const id = ++idSeq;
+  const el = document.createElement('div');
+  el.className='item'; el.id='item_'+id;
+  el.style.cssText=`left:${x}px;top:${y}px;width:${iw}px;height:${ih}px`;
+  el.innerHTML=`
+    <img class="item-img" src="${d.src}" draggable="false"/>
+    <div class="item-border"></div>
+    <div class="item-info" id="iinfo_${id}"></div>
+    <div class="handle h-tl" data-c="tl"></div><div class="handle h-tr" data-c="tr"></div>
+    <div class="handle h-bl" data-c="bl"></div><div class="handle h-br" data-c="br"></div>
+    <div class="handle h-tm" data-c="tm"></div><div class="handle h-bm" data-c="bm"></div>
+    <div class="handle h-ml" data-c="ml"></div><div class="handle h-mr" data-c="mr"></div>
+    <div class="h-rot" title="Drag to rotate">↻</div>
+    <div class="h-del" onclick="event.stopPropagation();deleteItem(${id})">×</div>
+    <div class="item-qty" id="iqty_${id}">×${q}</div>`;
+  el.addEventListener('mousedown', e=>startDrag(e,id));
+  el.querySelectorAll('.handle').forEach(h=>h.addEventListener('mousedown',e=>startResize(e,id,h.dataset.c)));
+  el.querySelector('.h-rot').addEventListener('mousedown',e=>startRotate(e,id));
+  document.getElementById('sheet').appendChild(el);
+  document.getElementById('emptyState').style.display='none';
+  const itm={id,did,el,x,y,w:iw,h:ih,rot:0,qty:q};
+  items.push(itm);
+  updateItemInfo(itm);
+  selectItem(id);
+  autoGrowSheet(); updateCoverage(); syncInfo();
+  return itm;
+}
+
+function updateItemInfo(it){
+  const el=document.getElementById('iinfo_'+it.id);
+  if(el) el.textContent=`${cpxToIn(it.w).toFixed(2)}" × ${cpxToIn(it.h).toFixed(2)}"`;
+}
+
+// ════════════════════════════════════════════════════════════════
+// ⚡ AUTO BUILD — NFDH Shelf Packing
+// ════════════════════════════════════════════════════════════════
+function autoBuild(){
+  if(!designs.length){ toast('Upload designs first!','warn'); return; }
+  clearAll(true);
+  const shW = SHEET_W_IN, gap = GAP_IN;
+  const sheet = document.getElementById('sheet');
+
+  // ── Flatten designs × qty ─────────────────────────────
+  const toPlace = [];
+  designs.forEach(d=>{
+    for(let i=0;i<Math.max(1,d.qty||1);i++){
+      let iw=d.inchW, ih=d.inchH;
+      if(iw > shW-gap*2){ const s=(shW-gap*2)/iw; iw=+(iw*s).toFixed(4); ih=+(ih*s).toFixed(4); }
+      toPlace.push({d, iw, ih});
+    }
+  });
+
+  // ── Sort: tallest first (NFDH) ────────────────────────
+  toPlace.sort((a,b)=>b.ih-a.ih);
+
+  // ── Shelf-pack — pure math, no DOM calls in loop ──────
+  const packed = [];
+  let curX=gap, curY=gap, rowH=0;
+  toPlace.forEach(({d,iw,ih})=>{
+    if(curX+iw+gap > shW){ curX=gap; curY=curY+rowH+gap; rowH=0; }
+    packed.push({d, iw, ih, px:curX, py:curY});
+    rowH=Math.max(rowH,ih); curX+=iw+gap;
+  });
+
+  // ── Batch DOM writes ─────────────────────────────────
+  sheet.style.display='none'; // detach to avoid reflow per item
+  packed.forEach(({d,iw,ih,px,py})=>{
+    const id   = ++idSeq;
+    const cpxX = inToCpx(px), cpxY = inToCpx(py);
+    const cpxW = inToCpx(iw), cpxH = inToCpx(ih);
+    const el   = document.createElement('div');
+    el.className='item'; el.id='item_'+id;
+    el.style.cssText=`left:${cpxX}px;top:${cpxY}px;width:${cpxW}px;height:${cpxH}px`;
+    el.innerHTML=`
+      <img class="item-img" src="${d.src}" draggable="false"/>
+      <div class="item-border"></div>
+      <div class="item-info" id="iinfo_${id}">${iw.toFixed(2)}" × ${ih.toFixed(2)}"</div>
+      <div class="handle h-tl" data-c="tl"></div><div class="handle h-tr" data-c="tr"></div>
+      <div class="handle h-bl" data-c="bl"></div><div class="handle h-br" data-c="br"></div>
+      <div class="handle h-tm" data-c="tm"></div><div class="handle h-bm" data-c="bm"></div>
+      <div class="handle h-ml" data-c="ml"></div><div class="handle h-mr" data-c="mr"></div>
+      <div class="h-rot" title="Drag to rotate">↻</div>
+      <div class="h-del" onclick="event.stopPropagation();deleteItem(${id})">×</div>
+      <div class="item-qty">×1</div>`;
+    el.addEventListener('mousedown', e=>startDrag(e,id));
+    el.querySelectorAll('.handle').forEach(h=>h.addEventListener('mousedown',e=>startResize(e,id,h.dataset.c)));
+    el.querySelector('.h-rot').addEventListener('mousedown',e=>startRotate(e,id));
+    sheet.appendChild(el);
+    items.push({id, did:d.id, el, x:cpxX, y:cpxY, w:cpxW, h:cpxH, rot:0, qty:1});
+  });
+  sheet.style.display=''; // reattach
+  if(items.length) document.getElementById('emptyState').style.display='none';
+
+  deselect();
+  autoGrowSheet(); updateCoverage(); syncInfo();
+  toast(`⚡ Packed ${items.length} design${items.length!==1?'s':''} at 300 DPI`,'success');
+}
+
+// ════════════════════════════════════════════════════════════════
+// DRAG
+// ════════════════════════════════════════════════════════════════
+function startDrag(e,id){
+  if(e.target.classList.contains('handle')||e.target.classList.contains('h-rot')||e.target.classList.contains('h-del')) return;
+  e.preventDefault(); e.stopPropagation();
+  selectItem(id);
+  const it=items.find(x=>x.id===id); if(!it) return;
+  iDrag=it; pointerStart={x:e.clientX,y:e.clientY}; elemStart={x:it.x,y:it.y};
+  document.addEventListener('mousemove',doDrag);
+  document.addEventListener('mouseup',stopDrag);
+}
+function doDrag(e){
+  if(!iDrag) return;
+  const dx=(e.clientX-pointerStart.x)/zoomLevel, dy=(e.clientY-pointerStart.y)/zoomLevel;
+  let nx=elemStart.x+dx, ny=elemStart.y+dy;
+  nx=Math.max(0,Math.min(nx,inToCpx(SHEET_W_IN)-iDrag.w));
+  ny=Math.max(0,ny);
+  if(snapOn){ const sg=inToCpx(SNAP_IN); nx=Math.round(nx/sg)*sg; ny=Math.round(ny/sg)*sg; }
+  iDrag.x=nx; iDrag.y=ny;
+  iDrag.el.style.left=nx+'px'; iDrag.el.style.top=ny+'px';
+}
+function stopDrag(){
+  iDrag=null;
+  document.removeEventListener('mousemove',doDrag);
+  document.removeEventListener('mouseup',stopDrag);
+  autoGrowSheet(); updateCoverage();
+}
+
+// ════════════════════════════════════════════════════════════════
+// RESIZE — 8 handles
+// ════════════════════════════════════════════════════════════════
+function startResize(e,id,corner){
+  e.preventDefault(); e.stopPropagation();
+  const it=items.find(x=>x.id===id); if(!it) return;
+  iResize={it,corner};
+  pointerStart={x:e.clientX,y:e.clientY};
+  elemStart={x:it.x,y:it.y,w:it.w,h:it.h};
+  document.addEventListener('mousemove',doResize);
+  document.addEventListener('mouseup',stopResize);
+}
+function doResize(e){
+  if(!iResize) return;
+  const {it,corner}=iResize;
+  const dx=(e.clientX-pointerStart.x)/zoomLevel, dy=(e.clientY-pointerStart.y)/zoomLevel;
+  let nx=elemStart.x,ny=elemStart.y,nw=elemStart.w,nh=elemStart.h;
+  const MIN=inToCpx(0.25);
+  if(corner==='br'){nw=Math.max(MIN,elemStart.w+dx);nh=Math.max(MIN,elemStart.h+dy);}
+  else if(corner==='bl'){nw=Math.max(MIN,elemStart.w-dx);nx=elemStart.x+elemStart.w-nw;nh=Math.max(MIN,elemStart.h+dy);}
+  else if(corner==='tr'){nw=Math.max(MIN,elemStart.w+dx);nh=Math.max(MIN,elemStart.h-dy);ny=elemStart.y+elemStart.h-nh;}
+  else if(corner==='tl'){nw=Math.max(MIN,elemStart.w-dx);nx=elemStart.x+elemStart.w-nw;nh=Math.max(MIN,elemStart.h-dy);ny=elemStart.y+elemStart.h-nh;}
+  else if(corner==='mr'){nw=Math.max(MIN,elemStart.w+dx);}
+  else if(corner==='ml'){nw=Math.max(MIN,elemStart.w-dx);nx=elemStart.x+elemStart.w-nw;}
+  else if(corner==='bm'){nh=Math.max(MIN,elemStart.h+dy);}
+  else if(corner==='tm'){nh=Math.max(MIN,elemStart.h-dy);ny=elemStart.y+elemStart.h-nh;}
+  if(e.shiftKey&&['br','bl','tr','tl'].includes(corner)){
+    const ratio=elemStart.w/elemStart.h;
+    if(Math.abs(dx)>Math.abs(dy)) nh=nw/ratio; else nw=nh*ratio;
+  }
+  if(snapOn){ const sg=inToCpx(SNAP_IN); nw=Math.round(nw/sg)*sg||sg; nh=Math.round(nh/sg)*sg||sg; nx=Math.round(nx/sg)*sg; ny=Math.round(ny/sg)*sg; }
+  it.x=nx;it.y=ny;it.w=nw;it.h=nh;
+  it.el.style.left=nx+'px';it.el.style.top=ny+'px';it.el.style.width=nw+'px';it.el.style.height=nh+'px';
+  updateItemInfo(it);
+}
+function stopResize(){
+  iResize=null;
+  document.removeEventListener('mousemove',doResize);
+  document.removeEventListener('mouseup',stopResize);
+  autoGrowSheet(); updateCoverage();
+}
+
+// ════════════════════════════════════════════════════════════════
+// ROTATE
+// ════════════════════════════════════════════════════════════════
+function startRotate(e,id){
+  e.preventDefault(); e.stopPropagation();
+  const it=items.find(x=>x.id===id); if(!it) return;
+  iRot=it;
+  const r=it.el.getBoundingClientRect();
+  pointerStart={cx:r.left+r.width/2, cy:r.top+r.height/2, startAngle:it.rot||0, mouseAngle:Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))};
+  document.addEventListener('mousemove',doRotate);
+  document.addEventListener('mouseup',stopRotate);
+}
+function doRotate(e){
+  if(!iRot) return;
+  const angle=Math.atan2(e.clientY-pointerStart.cy,e.clientX-pointerStart.cx);
+  let deg=pointerStart.startAngle+(angle-pointerStart.mouseAngle)*(180/Math.PI);
+  if(e.shiftKey) deg=Math.round(deg/15)*15;
+  iRot.rot=deg; iRot.el.style.transform=`rotate(${deg}deg)`;
+}
+function stopRotate(){
+  iRot=null;
+  document.removeEventListener('mousemove',doRotate);
+  document.removeEventListener('mouseup',stopRotate);
+}
+function rotateSelected(deg){
+  if(!selected) return;
+  const it=items.find(x=>x.id===selected); if(!it) return;
+  it.rot=((it.rot||0)+deg)%360; it.el.style.transform=`rotate(${it.rot}deg)`;
+}
+
+// ════════════════════════════════════════════════════════════════
+// ALIGN
+// ════════════════════════════════════════════════════════════════
+function alignSelected(mode){
+  if(!selected) return;
+  const it=items.find(x=>x.id===selected); if(!it) return;
+  const shW=inToCpx(SHEET_W_IN);
+  if(mode==='hcenter'){it.x=(shW-it.w)/2;it.el.style.left=it.x+'px';}
+  if(mode==='vcenter'){it.y=(inToCpx(sheetH)-it.h)/2;it.el.style.top=it.y+'px';}
+  updateCoverage();
+}
+
+// ════════════════════════════════════════════════════════════════
+// SELECT / DESELECT
+// ════════════════════════════════════════════════════════════════
+function selectItem(id){
+  if(selected===id) return;
+  deselect(); selected=id;
+  const it=items.find(x=>x.id===id); if(it) it.el.classList.add('sel');
+}
+function deselect(){
+  if(selected!==null){ const it=items.find(x=>x.id===selected); if(it) it.el.classList.remove('sel'); }
+  selected=null;
+}
+function outerClick(e){
+  // Deselect when clicking canvas background or empty state (any child)
+  const bg = document.getElementById('emptyState');
+  const ids = ['canvasOuter','canvasInner','sheet','emptyState','snapGrid','selBox'];
+  if(ids.includes(e.target.id) || (bg && bg.contains(e.target))) deselect();
+}
+function outerDblClick(e){ if(e.target.id==='sheet') deselect(); }
+
+// ════════════════════════════════════════════════════════════════
+// DUPLICATE / DELETE / CLEAR
+// ════════════════════════════════════════════════════════════════
+function duplicateSelected(){
+  if(!selected) return;
+  const it=items.find(x=>x.id===selected); if(!it) return;
+  // Place below with small offset; if it would go off-sheet right, wrap to next row
+  let nx=cpxToIn(it.x)+GAP_IN, ny=cpxToIn(it.y)+GAP_IN;
+  if(nx+cpxToIn(it.w) > SHEET_W_IN){ nx=GAP_IN; ny=cpxToIn(it.y+it.h)+GAP_IN; }
+  const ni=addToSheet(it.did,nx,ny,it.qty);
+  if(ni){ni.w=it.w;ni.h=it.h;ni.rot=it.rot;ni.el.style.width=ni.w+'px';ni.el.style.height=ni.h+'px';ni.el.style.transform=`rotate(${ni.rot}deg)`;updateItemInfo(ni);}
+}
+function deleteSelected(){ if(selected) deleteItem(selected); }
+function deleteItem(id){
+  const it=items.find(x=>x.id===id); if(!it) return;
+  it.el.remove(); items=items.filter(x=>x.id!==id);
+  if(selected===id) selected=null;
+  if(!items.length) document.getElementById('emptyState').style.display='flex';
+  autoGrowSheet(); updateCoverage(); syncInfo();
+}
+function clearAll(silent){
+  items.forEach(it=>it.el.remove()); items=[]; selected=null;
+  document.getElementById('emptyState').style.display='flex';
+  setSheetSize(MIN_H_IN); updateCoverage(); syncInfo();
+  if(!silent) toast('Sheet cleared');
+}
+
+// ════════════════════════════════════════════════════════════════
+// ZOOM
+// ════════════════════════════════════════════════════════════════
+function zoom(delta){
+  if(delta===0){fitToScreen();return;}
+  zoomLevel=Math.max(0.15,Math.min(3.0,zoomLevel+delta));
+  applyZoom();
+}
+function applyZoom(){
+  document.getElementById('canvasInner').style.transform=`scale(${zoomLevel})`;
+  const lbl=Math.round(zoomLevel*100)+'%';
+  document.getElementById('zoomLbl').textContent=lbl;
+  document.getElementById('zoomLbl2').textContent=lbl;
+  document.getElementById('bbZoom').textContent=lbl;
+}
+function fitToScreen(){
+  const wrap=document.getElementById('canvasOuter');
+  const aW=wrap.clientWidth-56, aH=wrap.clientHeight-56;
+  const shW=inToCpx(SHEET_W_IN), shH=inToCpx(sheetH);
+  zoomLevel=Math.max(0.15,Math.min(aW/shW,aH/shH,2.0));
+  applyZoom();
+}
+
+// ════════════════════════════════════════════════════════════════
+// SNAP / RUSH
+// ════════════════════════════════════════════════════════════════
+function toggleSnap(){
+  snapOn=!snapOn;
+  document.getElementById('snapBtn').classList.toggle('act',snapOn);
+  document.getElementById('snapGrid').classList.toggle('show',snapOn);
+  toast(snapOn?'⊞ Snap ON (0.25")':'⊞ Snap OFF');
+}
+function toggleRush(){
+  rushOn=!rushOn;
+  document.getElementById('rushCard').classList.toggle('on',rushOn);
+  document.getElementById('rushRow').style.display=rushOn?'block':'none';
+  updatePrice();
+}
+
+// ════════════════════════════════════════════════════════════════
+// PRICING
+// ════════════════════════════════════════════════════════════════
+function updatePrice(){
+  const qty=Math.max(1,parseInt(document.getElementById('sheetQty').value)||1);
+  const sqIn=SHEET_W_IN*sheetH, sqFt=sqIn/144, totalFt=sqFt*qty;
+  // Thresholds: 10 linear ft = ~18.75 sq ft, 20 linear ft = ~37.5 sq ft
+  const rate=totalFt>=37.5?0.02:totalFt>=18.75?0.025:0.030;
+  const sub=+(sqIn*rate*qty).toFixed(2);
+  const total=+(sub+(rushOn?RUSH_PRICE:0)).toFixed(2);
+  document.getElementById('pRate').textContent=`$${rate.toFixed(3)}/sq in`;
+  document.getElementById('pSqIn').textContent=`${sqIn.toFixed(1)} sq in`;
+  document.getElementById('pSheets').textContent=`× ${qty}`;
+  document.getElementById('pTotal').textContent=`$${total.toFixed(2)}`;
+  document.getElementById('btnTotal').textContent=`$${total.toFixed(2)}`;
+  const vn=document.getElementById('volNote');
+  if(totalFt>=37.5){vn.textContent='✓ Best rate applied: $0.02/sq in';vn.className='vol-note good';}
+  else if(totalFt>=18.75){vn.textContent='✓ Discounted: $0.025/sq in — order more for $0.02';vn.className='vol-note good';}
+  else{vn.textContent='Order 10+ linear ft for volume pricing';vn.className='vol-note';}
+}
+
+// ════════════════════════════════════════════════════════════════
+// COVERAGE
+// ════════════════════════════════════════════════════════════════
+function updateCoverage(){
+  const shW=inToCpx(SHEET_W_IN),shH=inToCpx(sheetH),total=shW*shH;
+  let used=0; items.forEach(it=>{used+=it.w*it.h;});
+  const pct=total>0?Math.min(100,Math.round((used/total)*100)):0;
+  document.getElementById('covPct').textContent=pct+'%';
+  document.getElementById('covFill').style.width=pct+'%';
+  document.getElementById('bbCov').textContent=pct+'%';
+  const cn=document.getElementById('covNote');
+  cn.textContent=pct>=90?'🔥 Excellent — sheet is well packed!':pct>=60?'👍 Good coverage':'Add more designs to fill the sheet';
+  updatePrice();
+}
+function syncInfo(){
+  const n=items.length;
+  document.getElementById('bbItems').textContent=n;
+  document.getElementById('tbInfo').textContent=`${n} item${n!==1?'s':''} · ${SHEET_W_IN}" × ${sheetH.toFixed(1)}"`;
+}
+
+// ════════════════════════════════════════════════════════════════
+// ORDER
+// ════════════════════════════════════════════════════════════════
+function goToOrder(){
+  document.getElementById('rightPanel').scrollTop=9999;
+}
+
+// Renders the placed items onto an offscreen 300-DPI canvas — this becomes
+// the actual print file, not just a preview.
+function compositeSheetPNG(){
+  return new Promise((resolve,reject)=>{
+    try{
+      const scale = PRINT_DPI/SCREEN_PPI;
+      const wPx = Math.round(inToCpx(SHEET_W_IN)*scale);
+      const hPx = Math.round(inToCpx(sheetH)*scale);
+      const canvas=document.createElement('canvas');
+      canvas.width=wPx; canvas.height=hPx;
+      const ctx=canvas.getContext('2d');
+      ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,wPx,hPx);
+      if(!items.length){ resolve(canvas.toDataURL('image/png')); return; }
+      let remaining=items.length;
+      items.forEach(it=>{
+        const img=new Image();
+        const done=()=>{ if(--remaining===0) resolve(canvas.toDataURL('image/png')); };
+        img.onload=()=>{
+          ctx.save();
+          const cx=(it.x+it.w/2)*scale, cy=(it.y+it.h/2)*scale;
+          ctx.translate(cx,cy);
+          ctx.rotate((it.rot||0)*Math.PI/180);
+          ctx.drawImage(img, -(it.w*scale)/2, -(it.h*scale)/2, it.w*scale, it.h*scale);
+          ctx.restore();
+          done();
+        };
+        img.onerror=done;
+        img.src = it.el.querySelector('.item-img').src;
+      });
+    }catch(e){ reject(e); }
+  });
+}
+
+async function submitOrder(){
+  if(!items.length){toast('Add at least one design to the sheet','warn');return;}
+  const btn=document.querySelector('.submit-btn');
+  const originalLabel=btn.innerHTML;
+  btn.disabled=true; btn.style.opacity='.6'; btn.innerHTML='Compositing…';
+  try{
+    const compositedImage = await compositeSheetPNG();
+    const qty = Math.max(1, parseInt(document.getElementById('sheetQty').value)||1);
+    const payload = {
+      compositedImage,
+      sheetWidthIn: SHEET_W_IN,
+      sheetHeightIn: sheetH,
+      sheetQty: qty,
+      rush: rushOn,
+      notes: document.getElementById('oNotes').value.trim(),
+      items: items.map(it=>({
+        widthIn: +cpxToIn(it.w).toFixed(3),
+        heightIn: +cpxToIn(it.h).toFixed(3),
+        xIn: +cpxToIn(it.x).toFixed(3),
+        yIn: +cpxToIn(it.y).toFixed(3),
+        rotationDeg: it.rot||0,
+        qty: it.qty||1
+      }))
+    };
+    btn.innerHTML='Saving design…';
+    const res = await fetch('/api/design/save', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok) throw new Error('Save failed: '+res.status);
+    const data = await res.json();
+    document.getElementById('orderModal').classList.add('open');
+    setTimeout(()=>{ window.location.href = '/cart?add='+encodeURIComponent(data.draftId); }, 900);
+  }catch(err){
+    console.error(err);
+    toast('Could not save your design — please try again.','err');
+    btn.disabled=false; btn.style.opacity=''; btn.innerHTML=originalLabel;
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ════════════════════════════════════════════════════════════════
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+  if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();deleteSelected();}
+  if((e.ctrlKey||e.metaKey)&&e.key==='d'){e.preventDefault();duplicateSelected();}
+  if(e.key==='r'||e.key==='R') rotateSelected(90);
+  if(e.key==='s'||e.key==='S') toggleSnap();
+  if(e.key==='Escape') deselect();
+  if(e.key==='='||e.key==='+') zoom(0.15);
+  if(e.key==='-') zoom(-0.15);
+  if(e.key==='0') zoom(0);
+  if(selected&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
+    e.preventDefault();
+    const it=items.find(x=>x.id===selected); if(!it) return;
+    const step=e.shiftKey?inToCpx(0.1):inToCpx(SNAP_IN);
+    if(e.key==='ArrowLeft')  it.x=Math.max(0,it.x-step);
+    if(e.key==='ArrowRight') it.x=Math.min(inToCpx(SHEET_W_IN)-it.w,it.x+step);
+    if(e.key==='ArrowUp')    it.y=Math.max(0,it.y-step);
+    if(e.key==='ArrowDown')  it.y=it.y+step;
+    it.el.style.left=it.x+'px'; it.el.style.top=it.y+'px';
+    // Throttle expensive reflows to 60fps during key-repeat
+    clearTimeout(window._nudgeTimer);
+    window._nudgeTimer=setTimeout(()=>{ autoGrowSheet(); updateCoverage(); },60);
+  }
+});
+
+// ════════════════════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════════════════════
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='show'+(type?' '+type:'');
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.className='',3200);
+}
+</script>
+</body>
+</html>
