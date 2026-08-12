@@ -18,10 +18,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-8 flex items-center gap-6 border-b border-slate-800 pb-4">
-        <h1 className="font-display text-2xl font-extrabold text-white">Admin</h1>
-        <nav className="flex gap-5 text-sm font-semibold text-slate-400">
-          <Link href="/admin" className="hover:text-white">
+      <div className="mb-8 flex items-center gap-6 border-b border-zinc-200 pb-4">
+        <h1 className="font-display text-2xl font-extrabold text-zinc-900">Admin</h1>
+        <nav className="flex gap-5 text-sm font-semibold text-zinc-500">
+          <Link href="/admin" className="hover:text-zinc-900">
             Orders
           </Link>
         </nav>

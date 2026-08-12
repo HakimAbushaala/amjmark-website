@@ -9,34 +9,34 @@ export async function SiteHeader() {
   } = await supabase.auth.getUser();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-8 px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 font-extrabold text-slate-900">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900 font-extrabold text-white">
             AM
           </span>
-          <span className="text-lg font-extrabold tracking-tight text-white">AMJ Mark</span>
+          <span className="text-lg font-extrabold tracking-tight text-zinc-900">AMJ Mark</span>
         </Link>
 
-        <nav className="hidden gap-6 text-sm font-semibold text-slate-300 sm:flex">
-          <Link href="/shop" className="hover:text-white">
+        <nav className="hidden gap-6 text-sm font-semibold text-zinc-500 sm:flex">
+          <Link href="/shop" className="hover:text-zinc-900">
             Shop
           </Link>
-          <Link href="/design" className="hover:text-white">
+          <Link href="/design" className="hover:text-zinc-900">
             Design a Gang Sheet
           </Link>
         </nav>
 
-        <div className="ml-auto flex items-center gap-5 text-sm font-semibold text-slate-300">
-          <Link href="/cart" className="hover:text-white">
+        <div className="ml-auto flex items-center gap-5 text-sm font-semibold text-zinc-500">
+          <Link href="/cart" className="hover:text-zinc-900">
             <CartBadge />
           </Link>
           {user ? (
-            <Link href="/account" className="hover:text-white">
+            <Link href="/account" className="hover:text-zinc-900">
               Account
             </Link>
           ) : (
-            <Link href="/account/login" className="hover:text-white">
+            <Link href="/account/login" className="hover:text-zinc-900">
               Sign In
             </Link>
           )}

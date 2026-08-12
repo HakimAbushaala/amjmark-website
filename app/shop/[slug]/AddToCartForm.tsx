@@ -42,15 +42,15 @@ export function AddToCartForm({
 
   return (
     <div className="mt-6 space-y-5">
-      <div className="text-2xl font-extrabold text-amber-400">{formatCents(unitPriceCents)}</div>
+      <div className="text-2xl font-extrabold text-zinc-900">{formatCents(unitPriceCents)}</div>
 
       {variants.length > 1 && (
         <div>
-          <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-400">Option</label>
+          <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-zinc-400">Option</label>
           <select
             value={variantId}
             onChange={(e) => setVariantId(e.target.value)}
-            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-white"
+            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900"
           >
             {variants.map((v) => (
               <option key={v.id} value={v.id} disabled={v.inventoryCount <= 0}>
@@ -62,20 +62,20 @@ export function AddToCartForm({
       )}
 
       <div>
-        <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-400">Quantity</label>
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-zinc-400">Quantity</label>
         <input
           type="number"
           min={1}
           value={qty}
           onChange={(e) => setQty(Math.max(1, parseInt(e.target.value) || 1))}
-          className="w-24 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-white"
+          className="w-24 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900"
         />
       </div>
 
       <button
         onClick={handleAdd}
         disabled={outOfStock}
-        className="w-full rounded-lg bg-gradient-to-r from-amber-400 to-amber-600 px-6 py-3 font-bold text-slate-900 shadow-lg shadow-amber-500/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+        className="w-full rounded-full bg-zinc-900 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {outOfStock ? "Out of Stock" : added ? "Added ✓" : "Add to Cart"}
       </button>
@@ -83,7 +83,7 @@ export function AddToCartForm({
       {added && (
         <button
           onClick={() => router.push("/cart")}
-          className="w-full rounded-lg border border-slate-700 px-6 py-2 text-sm font-semibold text-slate-300 hover:border-slate-500"
+          className="w-full rounded-full border border-zinc-300 px-6 py-2 text-sm font-semibold text-zinc-600 hover:border-zinc-500"
         >
           View Cart →
         </button>

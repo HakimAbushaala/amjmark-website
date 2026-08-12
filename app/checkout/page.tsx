@@ -76,9 +76,9 @@ export default function CheckoutPage() {
 
   if (lines.length === 0) {
     return (
-      <div className="mx-auto max-w-2xl px-6 py-24 text-center text-slate-500">
+      <div className="mx-auto max-w-2xl px-6 py-24 text-center text-zinc-400">
         Your cart is empty.{" "}
-        <Link href="/shop" className="font-semibold text-amber-400 hover:text-amber-300">
+        <Link href="/shop" className="font-semibold text-zinc-900 underline underline-offset-2">
           Browse the shop →
         </Link>
       </div>
@@ -87,11 +87,11 @@ export default function CheckoutPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="font-display text-3xl font-extrabold text-white">Checkout</h1>
+      <h1 className="font-display text-3xl font-extrabold text-zinc-900">Checkout</h1>
 
       <form onSubmit={handleSubmit} className="mt-8 grid gap-8 sm:grid-cols-2">
         <div className="space-y-4 sm:col-span-2">
-          <h2 className="text-sm font-bold uppercase tracking-wide text-slate-400">Contact & Shipping</h2>
+          <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-400">Contact & Shipping</h2>
         </div>
 
         <Field label="Full Name *" value={form.customerName} onChange={(v) => update("customerName", v)} required />
@@ -104,32 +104,32 @@ export default function CheckoutPage() {
         <Field label="ZIP *" value={form.zip} onChange={(v) => update("zip", v)} required />
 
         <div className="sm:col-span-2">
-          <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-400">
+          <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-zinc-400">
             Order Notes
           </label>
           <textarea
             value={form.notes}
             onChange={(e) => update("notes", e.target.value)}
-            className="min-h-24 w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-white"
+            className="min-h-24 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900"
           />
         </div>
 
-        <div className="flex items-center justify-between rounded-xl border border-amber-500/20 bg-amber-500/5 p-5 sm:col-span-2">
+        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 p-5 sm:col-span-2">
           <div>
-            <div className="text-xs uppercase tracking-wide text-slate-400">Estimated Total</div>
-            <div className="text-2xl font-extrabold text-amber-400">{formatCents(subtotalCents)}</div>
-            <div className="text-xs text-slate-500">Final total is confirmed on the next screen.</div>
+            <div className="text-xs uppercase tracking-wide text-zinc-500">Estimated Total</div>
+            <div className="text-2xl font-extrabold text-zinc-900">{formatCents(subtotalCents)}</div>
+            <div className="text-xs text-zinc-400">Final total is confirmed on the next screen.</div>
           </div>
           <button
             type="submit"
             disabled={submitting}
-            className="rounded-lg bg-gradient-to-r from-amber-400 to-amber-600 px-8 py-3 font-bold text-slate-900 transition hover:brightness-110 disabled:opacity-50"
+            className="rounded-full bg-zinc-900 px-8 py-3 font-bold text-white shadow-sm transition hover:bg-zinc-800 disabled:opacity-50"
           >
             {submitting ? "Redirecting to payment…" : "Continue to Payment →"}
           </button>
         </div>
 
-        {error && <p className="text-sm text-red-400 sm:col-span-2">{error}</p>}
+        {error && <p className="text-sm text-red-500 sm:col-span-2">{error}</p>}
       </form>
     </div>
   );
@@ -150,13 +150,13 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-400">{label}</label>
+      <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-zinc-400">{label}</label>
       <input
         type={type}
         value={value}
         required={required}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-white"
+        className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900"
       />
     </div>
   );

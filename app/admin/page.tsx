@@ -12,12 +12,12 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  pending_payment: "text-slate-400",
-  paid: "text-amber-400",
-  in_production: "text-blue-400",
-  shipped: "text-emerald-400",
-  completed: "text-emerald-500",
-  cancelled: "text-red-400",
+  pending_payment: "text-zinc-400",
+  paid: "text-amber-600",
+  in_production: "text-blue-600",
+  shipped: "text-emerald-600",
+  completed: "text-emerald-700",
+  cancelled: "text-red-600",
 };
 
 export default async function AdminOrdersPage() {
@@ -30,12 +30,12 @@ export default async function AdminOrdersPage() {
 
   return (
     <div>
-      <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-400">
+      <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-zinc-400">
         Orders ({orders.length})
       </h2>
-      <div className="overflow-hidden rounded-xl border border-slate-800">
+      <div className="overflow-hidden rounded-xl border border-zinc-200">
         <table className="w-full text-sm">
-          <thead className="bg-slate-900 text-left text-xs uppercase tracking-wide text-slate-500">
+          <thead className="bg-zinc-50 text-left text-xs uppercase tracking-wide text-zinc-500">
             <tr>
               <th className="px-4 py-3">Order</th>
               <th className="px-4 py-3">Customer</th>
@@ -44,29 +44,29 @@ export default async function AdminOrdersPage() {
               <th className="px-4 py-3 text-right">Total</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800">
+          <tbody className="divide-y divide-zinc-200">
             {orders.map((order) => (
-              <tr key={order.id} className="hover:bg-slate-900/60">
+              <tr key={order.id} className="hover:bg-zinc-50">
                 <td className="px-4 py-3">
-                  <Link href={`/admin/orders/${order.id}`} className="font-semibold text-amber-400 hover:text-amber-300">
+                  <Link href={`/admin/orders/${order.id}`} className="font-semibold text-zinc-900 underline underline-offset-2">
                     #{order.id.slice(0, 8)}
                   </Link>
-                  <div className="text-xs text-slate-500">{order.createdAt.toLocaleDateString()}</div>
+                  <div className="text-xs text-zinc-400">{order.createdAt.toLocaleDateString()}</div>
                 </td>
-                <td className="px-4 py-3 text-slate-300">
+                <td className="px-4 py-3 text-zinc-700">
                   {order.customerName}
-                  <div className="text-xs text-slate-500">{order.email}</div>
+                  <div className="text-xs text-zinc-400">{order.email}</div>
                 </td>
-                <td className="px-4 py-3 text-slate-400">{order.items.length} item(s)</td>
+                <td className="px-4 py-3 text-zinc-500">{order.items.length} item(s)</td>
                 <td className={`px-4 py-3 font-semibold ${STATUS_COLORS[order.status] ?? ""}`}>
                   {STATUS_LABELS[order.status] ?? order.status}
                 </td>
-                <td className="px-4 py-3 text-right font-bold text-white">{formatCents(order.totalCents)}</td>
+                <td className="px-4 py-3 text-right font-bold text-zinc-900">{formatCents(order.totalCents)}</td>
               </tr>
             ))}
             {orders.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-10 text-center text-slate-500">
+                <td colSpan={5} className="px-4 py-10 text-center text-zinc-400">
                   No orders yet.
                 </td>
               </tr>

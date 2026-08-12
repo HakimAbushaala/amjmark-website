@@ -47,19 +47,19 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
-      <h1 className="font-display text-3xl font-extrabold text-white">Your Cart</h1>
+      <h1 className="font-display text-3xl font-extrabold text-zinc-900">Your Cart</h1>
 
-      {loadingDraft && <p className="mt-6 text-sm text-slate-400">Adding your design…</p>}
+      {loadingDraft && <p className="mt-6 text-sm text-zinc-500">Adding your design…</p>}
 
       {lines.length === 0 && !loadingDraft ? (
-        <div className="mt-10 rounded-2xl border border-dashed border-slate-800 p-12 text-center text-slate-500">
+        <div className="mt-10 rounded-2xl border border-dashed border-zinc-300 p-12 text-center text-zinc-400">
           Your cart is empty.
           <div className="mt-4 flex justify-center gap-3">
-            <Link href="/design" className="font-semibold text-amber-400 hover:text-amber-300">
+            <Link href="/design" className="font-semibold text-zinc-900 underline underline-offset-2">
               Design a Gang Sheet
             </Link>
             <span>·</span>
-            <Link href="/shop" className="font-semibold text-amber-400 hover:text-amber-300">
+            <Link href="/shop" className="font-semibold text-zinc-900 underline underline-offset-2">
               Browse Shop
             </Link>
           </div>
@@ -69,9 +69,9 @@ export default function CartPage() {
           {lines.map((line) => (
             <div
               key={line.lineId}
-              className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900/60 p-4"
+              className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-4"
             >
-              <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white">
+              <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-zinc-100">
                 {line.kind === "gang_sheet_custom" ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={line.thumbnailUrl} alt="Gang sheet design" className="h-full w-full object-contain" />
@@ -84,31 +84,31 @@ export default function CartPage() {
               </div>
 
               <div className="flex-1">
-                <div className="font-semibold text-white">
+                <div className="font-semibold text-zinc-900">
                   {line.kind === "gang_sheet_custom" ? line.description : line.name}
                 </div>
                 {line.kind === "product" && line.variantName && (
-                  <div className="text-xs text-slate-400">{line.variantName}</div>
+                  <div className="text-xs text-zinc-500">{line.variantName}</div>
                 )}
                 {line.kind === "product" && (
                   <div className="mt-2 flex items-center gap-2">
-                    <label className="text-xs text-slate-400">Qty</label>
+                    <label className="text-xs text-zinc-500">Qty</label>
                     <input
                       type="number"
                       min={1}
                       value={line.qty}
                       onChange={(e) => setQty(line.lineId, parseInt(e.target.value) || 1)}
-                      className="w-16 rounded border border-slate-700 bg-slate-800 px-2 py-1 text-sm text-white"
+                      className="w-16 rounded border border-zinc-300 bg-white px-2 py-1 text-sm text-zinc-900"
                     />
                   </div>
                 )}
               </div>
 
               <div className="text-right">
-                <div className="font-bold text-amber-400">{formatCents(lineTotalCents(line))}</div>
+                <div className="font-bold text-zinc-900">{formatCents(lineTotalCents(line))}</div>
                 <button
                   onClick={() => removeLine(line.lineId)}
-                  className="mt-1 text-xs text-slate-500 hover:text-red-400"
+                  className="mt-1 text-xs text-zinc-400 hover:text-red-500"
                 >
                   Remove
                 </button>
@@ -116,14 +116,14 @@ export default function CartPage() {
             </div>
           ))}
 
-          <div className="flex items-center justify-between rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
+          <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 p-5">
             <div>
-              <div className="text-xs uppercase tracking-wide text-slate-400">Estimated Subtotal</div>
-              <div className="text-2xl font-extrabold text-amber-400">{formatCents(subtotalCents)}</div>
+              <div className="text-xs uppercase tracking-wide text-zinc-500">Estimated Subtotal</div>
+              <div className="text-2xl font-extrabold text-zinc-900">{formatCents(subtotalCents)}</div>
             </div>
             <button
               onClick={() => router.push("/checkout")}
-              className="rounded-lg bg-gradient-to-r from-amber-400 to-amber-600 px-8 py-3 font-bold text-slate-900 transition hover:brightness-110"
+              className="rounded-full bg-zinc-900 px-8 py-3 font-bold text-white shadow-sm transition hover:bg-zinc-800"
             >
               Checkout →
             </button>

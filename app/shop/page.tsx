@@ -27,10 +27,10 @@ export default async function ShopPage({
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <div className="mb-10">
-        <h1 className="font-display text-3xl font-extrabold text-white">Shop</h1>
-        <p className="mt-2 text-slate-400">
+        <h1 className="font-display text-3xl font-extrabold text-zinc-900">Shop</h1>
+        <p className="mt-2 text-zinc-500">
           Preset sheets and ready-pressed apparel. Need a fully custom layout?{" "}
-          <Link href="/design" className="text-amber-400 hover:text-amber-300">
+          <Link href="/design" className="font-semibold text-zinc-900 underline underline-offset-2">
             Use the gang sheet builder →
           </Link>
         </p>
@@ -38,7 +38,7 @@ export default async function ShopPage({
         <div className="mt-5 flex gap-2 text-sm font-semibold">
           <Link
             href="/shop"
-            className={`rounded-full px-4 py-1.5 ${!filterType ? "bg-amber-500 text-slate-900" : "border border-slate-700 text-slate-300 hover:border-slate-500"}`}
+            className={`rounded-full px-4 py-1.5 ${!filterType ? "bg-zinc-900 text-white" : "border border-zinc-300 text-zinc-600 hover:border-zinc-500"}`}
           >
             All
           </Link>
@@ -46,7 +46,7 @@ export default async function ShopPage({
             <Link
               key={t}
               href={`/shop?type=${t}`}
-              className={`rounded-full px-4 py-1.5 ${filterType === t ? "bg-amber-500 text-slate-900" : "border border-slate-700 text-slate-300 hover:border-slate-500"}`}
+              className={`rounded-full px-4 py-1.5 ${filterType === t ? "bg-zinc-900 text-white" : "border border-zinc-300 text-zinc-600 hover:border-zinc-500"}`}
             >
               {TYPE_LABELS[t]}
             </Link>
@@ -55,7 +55,7 @@ export default async function ShopPage({
       </div>
 
       {products.length === 0 ? (
-        <p className="text-slate-500">No products yet — check back soon.</p>
+        <p className="text-zinc-400">No products yet — check back soon.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => {
@@ -64,9 +64,9 @@ export default async function ShopPage({
               <Link
                 key={p.id}
                 href={`/shop/${p.slug}`}
-                className="group overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition hover:border-amber-500/40"
+                className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white transition hover:border-zinc-400"
               >
-                <div className="flex aspect-square items-center justify-center bg-slate-800 text-slate-600">
+                <div className="flex aspect-square items-center justify-center bg-zinc-100 text-zinc-400">
                   {p.images[0] ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={p.images[0]} alt={p.name} className="h-full w-full object-cover" />
@@ -75,11 +75,11 @@ export default async function ShopPage({
                   )}
                 </div>
                 <div className="p-4">
-                  <div className="text-xs font-bold uppercase tracking-wide text-amber-400">
+                  <div className="text-xs font-bold uppercase tracking-wide text-zinc-400">
                     {TYPE_LABELS[p.type] ?? p.type}
                   </div>
-                  <div className="mt-1 font-semibold text-white group-hover:text-amber-300">{p.name}</div>
-                  {price != null && <div className="mt-1 text-sm text-slate-400">From {formatCents(price)}</div>}
+                  <div className="mt-1 font-semibold text-zinc-900 group-hover:text-zinc-600">{p.name}</div>
+                  {price != null && <div className="mt-1 text-sm text-zinc-500">From {formatCents(price)}</div>}
                 </div>
               </Link>
             );

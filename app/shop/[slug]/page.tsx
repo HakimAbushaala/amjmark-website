@@ -14,7 +14,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
       <div className="grid gap-10 sm:grid-cols-2">
-        <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-slate-800 text-slate-600">
+        <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-zinc-100 text-zinc-400">
           {product.images[0] ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover" />
@@ -23,8 +23,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           )}
         </div>
         <div>
-          <h1 className="font-display text-3xl font-extrabold text-white">{product.name}</h1>
-          {product.description && <p className="mt-3 text-slate-400">{product.description}</p>}
+          <h1 className="font-display text-3xl font-extrabold text-zinc-900">{product.name}</h1>
+          {product.description && <p className="mt-3 text-zinc-500">{product.description}</p>}
           <AddToCartForm
             product={{
               id: product.id,

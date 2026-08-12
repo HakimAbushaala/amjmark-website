@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-slate-950 text-slate-100">
+      <body className="flex min-h-full flex-col bg-white text-zinc-900">
         <CartProvider>
           <SiteHeader />
           <main className="flex-1">{children}</main>
