@@ -152,21 +152,30 @@ export async function POST(request: NextRequest) {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-  const session = await stripe.checkout.sessions.create({
-    mode: "payment",
-    customer_email: user?.email ?? body.email,
-    line_items: resolved.map((item) => ({
-      quantity: item.qty,
-      price_data: {
-        currency: "usd",
-        unit_amount: item.unitPriceCents,
-        product_data: { name: item.description },
-      },
-    })),
-    metadata: { orderId: order.id },
-    success_url: `${siteUrl}/order/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${siteUrl}/checkout?cancelled=1`,
-  });
+  let session: Awaited<ReturnType<typeof stripe.checkout.sessions.create>>;
+  try {
+    session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      customer_email: user?.email ?? body.email,
+      line_items: resolved.map((item) => ({
+        quantity: item.qty,
+        price_data: {
+          currency: "usd",
+          unit_amount: item.unitPriceCents,
+          product_data: { name: item.description },
+        },
+      })),
+      metadata: { orderId: order.id },
+      success_url: `${siteUrl}/order/confirmation?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteUrl}/checkout?cancelled=1`,
+    });
+  } catch (err) {
+    console.error("Stripe session creation failed", err);
+    // No payment was ever attempted — drop the pending order rather than
+    // leaving an orphaned row behind.
+    await prisma.order.delete({ where: { id: order.id } }).catch(() => {});
+    return NextResponse.json({ error: "Payment provider is temporarily unavailable — please try again shortly." }, { status: 502 });
+  }
 
   await prisma.order.update({ where: { id: order.id }, data: { stripeSessionId: session.id } });
 
