@@ -8,8 +8,8 @@ export function SiteFooter() {
           <span className="font-semibold text-zinc-900">AMJ Mark</span> — Premium DTF Transfers &amp; Print-on-Demand
         </div>
         <div className="flex gap-6">
-          <a href="mailto:aabushaa@gmail.com" className="hover:text-zinc-900">
-            aabushaa@gmail.com
+          <a href="mailto:info@amjmark.com" className="hover:text-zinc-900">
+            info@amjmark.com
           </a>
           <Link href="/shop" className="hover:text-zinc-900">
             Shop

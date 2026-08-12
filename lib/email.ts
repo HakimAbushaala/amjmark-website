@@ -3,7 +3,7 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? "AMJ Mark <orders@amjmark.com>";
-const ADMIN_EMAIL = "aabushaa@gmail.com";
+const ADMIN_EMAIL = "info@amjmark.com";
 
 type OrderEmailInfo = {
   orderId: string;

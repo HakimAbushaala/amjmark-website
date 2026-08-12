@@ -103,4 +103,4 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe   # separate termi
    terminal shows the webhook firing; order appears in `/admin` and, if you
    were logged in, `/account`.
 6. Confirmation email arrives (customer) and an alert lands at
-   aabushaa@gmail.com.
+   info@amjmark.com.

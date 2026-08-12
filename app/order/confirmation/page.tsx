@@ -25,7 +25,7 @@ export default async function OrderConfirmationPage({
         <h1 className="font-display text-2xl font-bold text-zinc-900">Finishing up…</h1>
         <p className="mt-3">
           We&apos;re confirming your payment. If this doesn&apos;t update within a minute, check your email or
-          contact aabushaa@gmail.com.
+          contact info@amjmark.com.
         </p>
       </div>
     );
