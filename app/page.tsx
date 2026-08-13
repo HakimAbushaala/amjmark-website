@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { GangSheetTeaser } from "@/components/GangSheetTeaser";
-import { TransferIllustration } from "@/components/illustrations/TransferIllustration";
 
 const HERO_FEATURES = [
   { icon: "✦", title: "High-Detail Prints", body: "Sharp, vibrant, professional results" },
@@ -79,8 +79,15 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-zinc-200 bg-gradient-to-br from-zinc-50 to-zinc-100 p-8">
-            <TransferIllustration />
+          <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
+            <Image
+              src="/hero-transfer.png"
+              alt="Colorful DTF transfer design peeling off a black shirt"
+              width={1536}
+              height={1024}
+              className="h-full w-full object-cover"
+              priority
+            />
           </div>
         </div>
       </section>
