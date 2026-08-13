@@ -126,7 +126,7 @@ export default async function HomePage() {
       <section className="border-t border-zinc-200 bg-zinc-50">
         <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 py-16 lg:grid-cols-2">
           <div>
-            <h2 className="font-display text-4xl font-extrabold text-zinc-900">
+            <h2 className="font-display text-3xl font-bold text-zinc-900">
               Build. Preview. <span className="text-brand-700">Order.</span>
             </h2>
             <p className="mt-3 text-zinc-500">
