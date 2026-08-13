@@ -78,7 +78,7 @@ export default function CheckoutPage() {
     return (
       <div className="mx-auto max-w-2xl px-6 py-24 text-center text-zinc-400">
         Your cart is empty.{" "}
-        <Link href="/shop" className="font-semibold text-zinc-900 underline underline-offset-2">
+        <Link href="/shop" className="font-semibold text-brand-700 underline underline-offset-2">
           Browse the shop →
         </Link>
       </div>
@@ -123,7 +123,7 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="rounded-full bg-zinc-900 px-8 py-3 font-bold text-white shadow-sm transition hover:bg-zinc-800 disabled:opacity-50"
+            className="rounded-full bg-brand-700 px-8 py-3 font-bold text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-50"
           >
             {submitting ? "Redirecting to payment…" : "Continue to Payment →"}
           </button>

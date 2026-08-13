@@ -3,6 +3,11 @@
 @theme inline {
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
+  --color-brand-50: #fdf2f3;
+  --color-brand-100: #fbe1e3;
+  --color-brand-600: #b3283c;
+  --color-brand-700: #8f1d2e;
+  --color-brand-800: #6b1522;
 }
 
 body {

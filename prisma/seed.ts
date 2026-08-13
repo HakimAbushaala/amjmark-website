@@ -48,10 +48,17 @@ async function main() {
     },
   });
 
+  // Old SKUs from an earlier size lineup — drop them so upserts below don't
+  // leave stale duplicates alongside the current sizes.
+  await prisma.productVariant.deleteMany({
+    where: { productId: presetSheet.id, sku: { in: ["SHEET-12X12", "SHEET-22X24", "SHEET-22X36"] } },
+  });
+
   const presetVariants: { name: string; sku: string; priceCents: number }[] = [
-    { name: '12" × 12"', sku: "SHEET-12X12", priceCents: 1500 },
-    { name: '22" × 24"', sku: "SHEET-22X24", priceCents: 4500 },
-    { name: '22" × 36"', sku: "SHEET-22X36", priceCents: 6500 },
+    { name: "A4", sku: "SHEET-A4", priceCents: 1050 },
+    { name: "A3", sku: "SHEET-A3", priceCents: 1650 },
+    { name: '12" × 16"', sku: "SHEET-12X16", priceCents: 1850 },
+    { name: '16" × 20"', sku: "SHEET-16X20", priceCents: 2450 },
   ];
   for (const v of presetVariants) {
     await prisma.productVariant.upsert({

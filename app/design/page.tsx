@@ -10,7 +10,7 @@ export default function DesignPage() {
       </p>
       <Link
         href="/gang-sheet-builder.html"
-        className="mt-10 inline-block rounded-full bg-zinc-900 px-8 py-4 font-bold text-white shadow-sm transition hover:bg-zinc-800"
+        className="mt-10 inline-block rounded-full bg-brand-700 px-8 py-4 font-bold text-white shadow-sm transition hover:bg-brand-800"
       >
         Launch the Builder →
       </Link>

@@ -59,18 +59,18 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-full bg-zinc-900 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-zinc-800 disabled:opacity-50"
+          className="w-full rounded-full bg-brand-700 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-50"
         >
           {submitting ? "Signing in…" : "Sign In"}
         </button>
       </form>
       <p className="mt-6 text-center text-sm text-zinc-500">
         No account?{" "}
-        <Link href="/account/signup" className="font-semibold text-zinc-900 underline underline-offset-2">
+        <Link href="/account/signup" className="font-semibold text-brand-700 underline underline-offset-2">
           Sign up
         </Link>{" "}
         — or just{" "}
-        <Link href="/shop" className="font-semibold text-zinc-900 underline underline-offset-2">
+        <Link href="/shop" className="font-semibold text-brand-700 underline underline-offset-2">
           checkout as a guest
         </Link>
         .

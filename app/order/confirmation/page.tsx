@@ -71,7 +71,7 @@ export default async function OrderConfirmationPage({
         </Link>
         <Link
           href="/account"
-          className="rounded-full bg-zinc-900 px-6 py-2 font-bold text-white hover:bg-zinc-800"
+          className="rounded-full bg-brand-700 px-6 py-2 font-bold text-white hover:bg-brand-800"
         >
           View Order History
         </Link>

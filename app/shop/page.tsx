@@ -30,7 +30,7 @@ export default async function ShopPage({
         <h1 className="font-display text-3xl font-extrabold text-zinc-900">Shop</h1>
         <p className="mt-2 text-zinc-500">
           Preset sheets and ready-pressed apparel. Need a fully custom layout?{" "}
-          <Link href="/design" className="font-semibold text-zinc-900 underline underline-offset-2">
+          <Link href="/design" className="font-semibold text-brand-700 underline underline-offset-2">
             Use the gang sheet builder →
           </Link>
         </p>
@@ -38,7 +38,7 @@ export default async function ShopPage({
         <div className="mt-5 flex gap-2 text-sm font-semibold">
           <Link
             href="/shop"
-            className={`rounded-full px-4 py-1.5 ${!filterType ? "bg-zinc-900 text-white" : "border border-zinc-300 text-zinc-600 hover:border-zinc-500"}`}
+            className={`rounded-full px-4 py-1.5 ${!filterType ? "bg-brand-700 text-white" : "border border-zinc-300 text-zinc-600 hover:border-zinc-500"}`}
           >
             All
           </Link>
@@ -46,7 +46,7 @@ export default async function ShopPage({
             <Link
               key={t}
               href={`/shop?type=${t}`}
-              className={`rounded-full px-4 py-1.5 ${filterType === t ? "bg-zinc-900 text-white" : "border border-zinc-300 text-zinc-600 hover:border-zinc-500"}`}
+              className={`rounded-full px-4 py-1.5 ${filterType === t ? "bg-brand-700 text-white" : "border border-zinc-300 text-zinc-600 hover:border-zinc-500"}`}
             >
               {TYPE_LABELS[t]}
             </Link>

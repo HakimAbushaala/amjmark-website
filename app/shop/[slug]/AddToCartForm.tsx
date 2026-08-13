@@ -75,7 +75,7 @@ export function AddToCartForm({
       <button
         onClick={handleAdd}
         disabled={outOfStock}
-        className="w-full rounded-full bg-zinc-900 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-40"
+        className="w-full rounded-full bg-brand-700 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {outOfStock ? "Out of Stock" : added ? "Added ✓" : "Add to Cart"}
       </button>

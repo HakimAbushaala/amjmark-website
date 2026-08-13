@@ -48,7 +48,7 @@ export default async function AdminOrdersPage() {
             {orders.map((order) => (
               <tr key={order.id} className="hover:bg-zinc-50">
                 <td className="px-4 py-3">
-                  <Link href={`/admin/orders/${order.id}`} className="font-semibold text-zinc-900 underline underline-offset-2">
+                  <Link href={`/admin/orders/${order.id}`} className="font-semibold text-brand-700 underline underline-offset-2">
                     #{order.id.slice(0, 8)}
                   </Link>
                   <div className="text-xs text-zinc-400">{order.createdAt.toLocaleDateString()}</div>

@@ -55,11 +55,11 @@ export default function CartPage() {
         <div className="mt-10 rounded-2xl border border-dashed border-zinc-300 p-12 text-center text-zinc-400">
           Your cart is empty.
           <div className="mt-4 flex justify-center gap-3">
-            <Link href="/design" className="font-semibold text-zinc-900 underline underline-offset-2">
+            <Link href="/design" className="font-semibold text-brand-700 underline underline-offset-2">
               Design a Gang Sheet
             </Link>
             <span>·</span>
-            <Link href="/shop" className="font-semibold text-zinc-900 underline underline-offset-2">
+            <Link href="/shop" className="font-semibold text-brand-700 underline underline-offset-2">
               Browse Shop
             </Link>
           </div>
@@ -123,7 +123,7 @@ export default function CartPage() {
             </div>
             <button
               onClick={() => router.push("/checkout")}
-              className="rounded-full bg-zinc-900 px-8 py-3 font-bold text-white shadow-sm transition hover:bg-zinc-800"
+              className="rounded-full bg-brand-700 px-8 py-3 font-bold text-white shadow-sm transition hover:bg-brand-800"
             >
               Checkout →
             </button>
