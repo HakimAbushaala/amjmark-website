@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { AddToCartForm } from "./AddToCartForm";
+import { TransferIllustration } from "@/components/illustrations/TransferIllustration";
+import { GangSheetIllustration } from "@/components/illustrations/GangSheetIllustration";
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -14,12 +16,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
       <div className="grid gap-10 sm:grid-cols-2">
-        <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-zinc-100 text-zinc-400">
+        <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-50 to-zinc-100 p-10">
           {product.images[0] ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover" />
+          ) : product.type === "apparel" ? (
+            <TransferIllustration />
           ) : (
-            <span className="text-6xl">🧵</span>
+            <GangSheetIllustration />
           )}
         </div>
         <div>

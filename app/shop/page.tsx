@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/format";
 import type { ProductType } from "@prisma/client";
+import { ShirtIcon, SheetIcon } from "@/components/illustrations/ProductIcon";
 
 const TYPE_LABELS: Record<string, string> = {
   gang_sheet_preset: "Preset Sheets",
@@ -70,8 +71,10 @@ export default async function ShopPage({
                   {p.images[0] ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={p.images[0]} alt={p.name} className="h-full w-full object-cover" />
+                  ) : p.type === "apparel" ? (
+                    <ShirtIcon className="h-12 w-12" />
                   ) : (
-                    <span className="text-4xl">🧵</span>
+                    <SheetIcon className="h-12 w-12" />
                   )}
                 </div>
                 <div className="p-4">

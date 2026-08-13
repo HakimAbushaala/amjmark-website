@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { GangSheetTeaser } from "@/components/GangSheetTeaser";
+import { TransferIllustration } from "@/components/illustrations/TransferIllustration";
 
 const HERO_FEATURES = [
   { icon: "✦", title: "High-Detail Prints", body: "Sharp, vibrant, professional results" },
@@ -30,17 +31,6 @@ const SECONDARY_FEATURES = [
   { icon: "🛡", title: "Durable Transfers", body: "Strong adhesion. Built to last." },
   { icon: "📍", title: "Local & Reliable", body: "Local production, fast turnaround" },
 ];
-
-// Styled placeholder standing in for real product photography — swap for
-// an <img> once photos are ready.
-function PhotoPlaceholder() {
-  return (
-    <div className="relative flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-gradient-to-br from-zinc-50 to-zinc-100 text-zinc-400">
-      <span className="text-5xl">🎞️👕</span>
-      <span className="text-xs font-semibold uppercase tracking-wide">Transfer Film → Pressed Shirt</span>
-    </div>
-  );
-}
 
 export default async function HomePage() {
   const presetSheet = await prisma.product.findUnique({
@@ -89,7 +79,9 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <PhotoPlaceholder />
+          <div className="rounded-2xl border border-zinc-200 bg-gradient-to-br from-zinc-50 to-zinc-100 p-8">
+            <TransferIllustration />
+          </div>
         </div>
       </section>
 

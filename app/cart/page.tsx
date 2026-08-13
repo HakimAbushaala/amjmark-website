@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCart } from "@/components/CartProvider";
 import { lineTotalCents } from "@/lib/cart-types";
 import { formatCents } from "@/lib/format";
+import { SheetIcon } from "@/components/illustrations/ProductIcon";
 
 export default function CartPage() {
   const { lines, removeLine, setQty, addLine, subtotalCents } = useCart();
@@ -79,7 +80,7 @@ export default function CartPage() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={line.image} alt={line.name} className="h-full w-full object-cover" />
                 ) : (
-                  <span className="text-2xl">🧵</span>
+                  <SheetIcon className="h-8 w-8 text-zinc-400" />
                 )}
               </div>
 

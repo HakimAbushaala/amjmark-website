@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/format";
 import { StatusSelect } from "./StatusSelect";
+import { SheetIcon } from "@/components/illustrations/ProductIcon";
 
 export default async function AdminOrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -73,8 +74,8 @@ export default async function AdminOrderDetailPage({ params }: { params: Promise
                   <img src={item.designAssetUrl} alt={item.description} className="h-full w-full object-contain" />
                 </div>
               ) : (
-                <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-2xl">
-                  🧵
+                <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-zinc-100">
+                  <SheetIcon className="h-8 w-8 text-zinc-400" />
                 </div>
               )}
               <div className="flex-1">
