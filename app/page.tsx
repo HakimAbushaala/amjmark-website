@@ -54,7 +54,7 @@ export default async function HomePage() {
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <h1 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-zinc-900 sm:text-6xl">
+            <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-zinc-900 sm:text-5xl">
               Crisp. <span className="text-brand-700">Yours.</span>
             </h1>
             <p className="mt-5 max-w-md text-lg text-zinc-500">
