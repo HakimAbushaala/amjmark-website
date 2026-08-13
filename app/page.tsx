@@ -148,7 +148,7 @@ export default async function HomePage() {
             <div className="mt-7 flex flex-wrap items-center gap-4">
               <Link
                 href="/design"
-                className="rounded-full bg-brand-700 px-7 py-3 font-bold text-white shadow-sm transition hover:bg-brand-800"
+                className="rounded-full bg-brand-700 px-6 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-800"
               >
                 Build Your Gang Sheet
               </Link>
