@@ -17,3 +17,7 @@ body {
 .font-display {
   font-family: var(--font-display), sans-serif;
 }
+
+.font-logo {
+  font-family: var(--font-logo), Georgia, serif;
+}

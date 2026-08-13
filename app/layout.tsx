@@ -20,7 +20,7 @@ const displayFont = Syne({
 const logoFont = Playfair_Display({
   variable: "--font-logo",
   subsets: ["latin"],
-  weight: ["700"],
+  weight: ["700", "900"],
 });
 
 export const metadata: Metadata = {
